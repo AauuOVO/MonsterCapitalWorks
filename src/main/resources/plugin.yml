@@ -1,0 +1,137 @@
+name: AauuMobCapital
+version: '1.0'
+main: org.Aauu.aauuMobCapital.AauuMobCapital
+api-version: '1.21'
+authors: [ Aauu ]
+description: Aauu Mob Capital (AMC)刷怪笼系统
+depend: [Vault]
+softdepend: [PlaceholderAPI]
+load: POSTWORLD
+
+commands:
+  amc:
+    description: AMC主命令
+    usage: /amc <help|reload|give|info|list|remove>
+    aliases: [aauumobcapital, mobcapital]
+
+permissions:
+  amc.*:
+    description: 所有AMC权限
+    children:
+      amc.create.*: true
+      amc.gui.*: true
+      amc.bypass.*: true
+      amc.admin: true
+  
+  amc.create.*:
+    description: 创建所有类型刷怪笼
+    children:
+      amc.create.normal: true
+      amc.create.premium: true
+  
+  amc.create.normal:
+    description: 创建普通刷怪笼
+    default: true
+  
+  amc.create.premium:
+    description: 创建付费刷怪笼
+    default: false
+  
+  amc.gui.*:
+    description: 打开所有GUI
+    children:
+      amc.gui.normal: true
+      amc.gui.premium: true
+      amc.gui.purchase: true
+  
+  amc.gui.normal:
+    description: 打开普通刷怪笼GUI
+    default: true
+  
+  amc.gui.premium:
+    description: 打开付费刷怪笼GUI
+    default: false
+  
+  amc.gui.purchase:
+    description: 打开购买界面
+    default: true
+  
+  amc.gui.admin:
+    description: 打开管理员GUI
+    default: op
+  
+  amc.gui.edit:
+    description: 编辑GUI配置
+    default: op
+  
+  amc.bypass.*:
+    description: 绕过所有限制
+    children:
+      amc.bypass.conditions: true
+      amc.bypass.disabled: true
+      amc.bypass.limits: true
+  
+  amc.bypass.conditions:
+    description: 绕过生物生成条件
+    default: op
+  
+  amc.bypass.disabled:
+    description: 绕过生物禁用限制
+    default: op
+  
+  amc.bypass.limits:
+    description: 绕过所有数量限制
+    default: op
+  
+  amc.admin:
+    description: 所有管理员权限
+    default: op
+    children:
+      amc.admin.reload: true
+      amc.admin.give: true
+      amc.admin.remove: true
+      amc.admin.break: true
+      amc.admin.use: true
+      amc.admin.list.others: true
+  
+  amc.admin.reload:
+    description: 重载配置权限
+    default: op
+  
+  amc.admin.give:
+    description: 给予刷怪笼权限
+    default: op
+  
+  amc.admin.remove:
+    description: 移除刷怪笼权限
+    default: op
+  
+  amc.admin.break:
+    description: 破坏他人刷怪笼权限
+    default: op
+  
+  amc.admin.use:
+    description: 使用他人刷怪笼权限
+    default: op
+  
+  amc.admin.list.others:
+    description: 查看他人刷怪笼列表权限
+    default: op
+  
+  amc.place.*:
+    description: 放置所有类型刷怪笼
+    children:
+      amc.place.normal: true
+      amc.place.premium: true
+  
+  amc.place.normal:
+    description: 放置普通刷怪笼
+    default: true
+  
+  amc.place.premium:
+    description: 放置付费刷怪笼
+    default: false
+  
+  amc.spawnmode.precise:
+    description: 使用精确生成模式
+    default: true
