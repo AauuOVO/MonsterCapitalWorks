@@ -1,0 +1,471 @@
+# GUI配置文件 - 完全可自定义的GUI系统
+
+# 主菜单
+main_menu:
+  title: "&6&l刷怪笼控制面板"
+  size: 27
+  items:
+    # 升级按钮
+    upgrade:
+      slot: 11
+      material: "DIAMOND"
+      name: "&b&l升级刷怪笼"
+      lore:
+        - "&7点击查看可升级选项"
+        - ""
+        - "&7当前等级:"
+        - "&e  速度: %amc_speed_level%"
+        - "&e  数量: %amc_count_level%"
+        - "&e  范围: %amc_range_level%"
+      actions:
+        - "open_gui: upgrade_menu"
+    
+    # 开关按钮
+    toggle_active:
+      slot: 13
+      material: "LEVER"
+      name: "&e&l刷怪笼开关"
+      lore:
+        - "&7当前状态: %amc_status%"
+        - ""
+        - "&a开启: &7正常刷怪"
+        - "&c关闭: &7仅存储生物"
+        - ""
+        - "&e点击切换状态"
+      actions:
+        - "toggle_active"
+    
+    # 选择生物按钮
+    entities:
+      slot: 14
+      material: "SPAWN_EGG"
+      name: "&a&l选择生物"
+      lore:
+        - "&7点击选择生成的生物类型"
+        - ""
+        - "&7当前生物: &e%amc_entity%"
+      actions:
+        - "open_gui: entity_menu"
+    
+    # 购买数量按钮
+    buy_limit:
+      slot: 15
+      material: "GOLD_INGOT"
+      name: "&6&l购买数量上限"
+      lore:
+        - "&7点击购买更多刷怪笼位"
+        - ""
+        - "&7当前: &e%amc_placed%/%amc_limit%"
+        - "&7已购买: &e%amc_purchased%"
+      actions:
+        - "open_gui: buy_limit_menu"
+    
+    # 生成模式设置按钮
+    spawn_mode:
+      slot: 16
+      material: "ENDER_PEARL"
+      name: "&d&l生成模式设置"
+      lore:
+        - "&7当前模式: %amc_spawn_mode%"
+        - "&7精确位置: %amc_precise_pos%"
+        - ""
+        - "&e左键: &7切换生成模式"
+        - "&e右键: &7打开精确位置设置"
+        - ""
+        - "&c需要权限: &7amc.spawnmode.precise"
+      actions:
+        - "toggle_spawn_mode"
+      right_click_actions:
+        - "open_gui: precise_pos_menu"
+    
+    # 信息按钮
+    info:
+      slot: 22
+      material: "BOOK"
+      name: "&e&l刷怪笼信息"
+      lore:
+        - "&7类型: &e%amc_type%"
+        - "&7生物: &e%amc_entity%"
+        - "&7位置: &e%amc_location%"
+        - ""
+        - "&7状态: %amc_active%"
+        - "&7存储: &e%amc_stored%"
+        - "&7生成模式: %amc_spawn_mode%"
+      actions: []
+    
+    # 关闭按钮
+    close:
+      slot: 26
+      material: "BARRIER"
+      name: "&c&l关闭"
+      lore:
+        - "&7点击关闭界面"
+      actions:
+        - "close"
+
+# 升级菜单
+upgrade_menu:
+  title: "&b&l升级刷怪笼"
+  size: 54
+  items:
+    # 速度升级
+    speed:
+      slot: 10
+      material: "FEATHER"
+      name: "&b生成速度 &7(等级 %amc_speed_level%)"
+      lore:
+        - "&7减少生成间隔时间"
+        - ""
+        - "&7当前值: &e%amc_speed_value% tick"
+        - "&7下一级: &a%amc_speed_next_value% tick"
+        - ""
+        - "&7升级费用: &e%amc_speed_cost%"
+        - ""
+        - "&7前置需求:"
+        - "%amc_speed_required%"
+        - ""
+        - "&e左键点击升级"
+      actions:
+        - "upgrade: speed"
+    
+    # 数量升级
+    count:
+      slot: 12
+      material: "SLIME_BALL"
+      name: "&a生成数量 &7(等级 %amc_count_level%)"
+      lore:
+        - "&7增加每波生成的实体数量"
+        - ""
+        - "&7当前值: &e%amc_count_value%"
+        - "&7下一级: &a%amc_count_next_value%"
+        - ""
+        - "&7升级费用: &e%amc_count_cost%"
+        - ""
+        - "&7前置需求:"
+        - "%amc_count_required%"
+        - ""
+        - "&e左键点击升级"
+      actions:
+        - "upgrade: count"
+    
+    # 最大附近实体升级
+    max_nearby:
+      slot: 14
+      material: "ENDER_PEARL"
+      name: "&e最大附近实体 &7(等级 %amc_max_nearby_level%)"
+      lore:
+        - "&7增加允许的最大附近实体数"
+        - ""
+        - "&7当前值: &e%amc_max_nearby_value%"
+        - "&7下一级: &a%amc_max_nearby_next_value%"
+        - ""
+        - "&7升级费用: &e%amc_max_nearby_cost%"
+        - ""
+        - "&7前置需求:"
+        - "%amc_max_nearby_required%"
+        - ""
+        - "&e左键点击升级"
+      actions:
+        - "upgrade: max_nearby"
+    
+    # 激活范围升级
+    range:
+      slot: 16
+      material: "COMPASS"
+      name: "&d激活范围 &7(等级 %amc_range_level%)"
+      lore:
+        - "&7增加刷怪笼的激活范围"
+        - ""
+        - "&7当前值: &e%amc_range_value% 方块"
+        - "&7下一级: &a%amc_range_next_value% 方块"
+        - ""
+        - "&7升级费用: &e%amc_range_cost%"
+        - ""
+        - "&7前置需求:"
+        - "%amc_range_required%"
+        - ""
+        - "&e左键点击升级"
+      actions:
+        - "upgrade: range"
+    
+    # 最大存储升级
+    storage:
+      slot: 28
+      material: "CHEST"
+      name: "&6最大存储 &7(等级 %amc_storage_level%)"
+      lore:
+        - "&7增加离线时的最大累积生成次数"
+        - ""
+        - "&7当前值: &e%amc_storage_value%"
+        - "&7下一级: &a%amc_storage_next_value%"
+        - ""
+        - "&7升级费用: &e%amc_storage_cost%"
+        - ""
+        - "&7前置需求:"
+        - "%amc_storage_required%"
+        - ""
+        - "&e左键点击升级"
+      actions:
+        - "upgrade: storage"
+    
+    # 返回按钮
+    back:
+      slot: 49
+      material: "ARROW"
+      name: "&e返回"
+      lore:
+        - "&7返回主菜单"
+      actions:
+        - "open_gui: main_menu"
+
+# 实体选择菜单
+entity_menu:
+  title: "&a&l选择生物"
+  size: 54
+  items:
+    # 动态生成实体按钮
+    # 格式: entity_<实体类型>
+    # 系统会自动根据配置文件生成
+    
+    # 返回按钮
+    back:
+      slot: 49
+      material: "ARROW"
+      name: "&e返回"
+      lore:
+        - "&7返回主菜单"
+      actions:
+        - "open_gui: main_menu"
+
+# 购买数量上限菜单
+buy_limit_menu:
+  title: "&6&l购买数量上限"
+  size: 27
+  items:
+    # 购买1个
+    buy_1:
+      slot: 10
+      material: "GOLD_NUGGET"
+      name: "&e购买 1 个位置"
+      lore:
+        - "&7费用: &e%amc_buy_1_cost%"
+        - ""
+        - "&e左键点击购买"
+      actions:
+        - "purchase: limit 1"
+    
+    # 购买5个
+    buy_5:
+      slot: 12
+      material: "GOLD_INGOT"
+      name: "&e购买 5 个位置"
+      lore:
+        - "&7费用: &e%amc_buy_5_cost%"
+        - ""
+        - "&e左键点击购买"
+      actions:
+        - "purchase: limit 5"
+    
+    # 购买10个
+    buy_10:
+      slot: 14
+      material: "GOLD_BLOCK"
+      name: "&e购买 10 个位置"
+      lore:
+        - "&7费用: &e%amc_buy_10_cost%"
+        - ""
+        - "&e左键点击购买"
+      actions:
+        - "purchase: limit 10"
+    
+    # 当前信息
+    info:
+      slot: 16
+      material: "PAPER"
+      name: "&6当前信息"
+      lore:
+        - "&7基础数量: &e%amc_base_limit%"
+        - "&7权限数量: &e%amc_perm_limit%"
+        - "&7已购买: &e%amc_purchased%"
+        - ""
+        - "&7总计: &a%amc_limit%"
+      actions: []
+    
+    # 返回按钮
+    back:
+      slot: 22
+      material: "ARROW"
+      name: "&e返回"
+      lore:
+        - "&7返回主菜单"
+      actions:
+        - "open_gui: main_menu"
+
+# 精确位置设置菜单
+precise_pos_menu:
+  title: "&d&l精确位置设置"
+  size: 27
+  items:
+    # X轴减少
+    x_minus:
+      slot: 9
+      material: "RED_STAINED_GLASS_PANE"
+      name: "&cX轴 -1"
+      lore:
+        - "&7当前X偏移: &e%amc_precise_x%"
+        - ""
+        - "&e左键: -1"
+        - "&e右键: -5"
+      actions:
+        - "adjust_pos: x -1"
+      right_click_actions:
+        - "adjust_pos: x -5"
+    
+    # X轴信息
+    x_info:
+      slot: 10
+      material: "ORANGE_STAINED_GLASS_PANE"
+      name: "&6X轴偏移"
+      lore:
+        - "&7当前值: &e%amc_precise_x%"
+        - ""
+        - "&7调整生物在X轴的生成位置"
+        - "&7范围: 激活范围内"
+      actions: []
+    
+    # X轴增加
+    x_plus:
+      slot: 11
+      material: "LIME_STAINED_GLASS_PANE"
+      name: "&aX轴 +1"
+      lore:
+        - "&7当前X偏移: &e%amc_precise_x%"
+        - ""
+        - "&e左键: +1"
+        - "&e右键: +5"
+      actions:
+        - "adjust_pos: x 1"
+      right_click_actions:
+        - "adjust_pos: x 5"
+    
+    # Y轴减少
+    y_minus:
+      slot: 12
+      material: "RED_STAINED_GLASS_PANE"
+      name: "&cY轴 -1"
+      lore:
+        - "&7当前Y偏移: &e%amc_precise_y%"
+        - ""
+        - "&e左键: -1"
+        - "&e右键: -5"
+      actions:
+        - "adjust_pos: y -1"
+      right_click_actions:
+        - "adjust_pos: y -5"
+    
+    # Y轴信息
+    y_info:
+      slot: 13
+      material: "ORANGE_STAINED_GLASS_PANE"
+      name: "&6Y轴偏移"
+      lore:
+        - "&7当前值: &e%amc_precise_y%"
+        - ""
+        - "&7调整生物在Y轴的生成位置"
+        - "&7范围: 激活范围内"
+      actions: []
+    
+    # Y轴增加
+    y_plus:
+      slot: 14
+      material: "LIME_STAINED_GLASS_PANE"
+      name: "&aY轴 +1"
+      lore:
+        - "&7当前Y偏移: &e%amc_precise_y%"
+        - ""
+        - "&e左键: +1"
+        - "&e右键: +5"
+      actions:
+        - "adjust_pos: y 1"
+      right_click_actions:
+        - "adjust_pos: y 5"
+    
+    # Z轴减少
+    z_minus:
+      slot: 15
+      material: "RED_STAINED_GLASS_PANE"
+      name: "&cZ轴 -1"
+      lore:
+        - "&7当前Z偏移: &e%amc_precise_z%"
+        - ""
+        - "&e左键: -1"
+        - "&e右键: -5"
+      actions:
+        - "adjust_pos: z -1"
+      right_click_actions:
+        - "adjust_pos: z -5"
+    
+    # Z轴信息
+    z_info:
+      slot: 16
+      material: "ORANGE_STAINED_GLASS_PANE"
+      name: "&6Z轴偏移"
+      lore:
+        - "&7当前值: &e%amc_precise_z%"
+        - ""
+        - "&7调整生物在Z轴的生成位置"
+        - "&7范围: 激活范围内"
+      actions: []
+    
+    # Z轴增加
+    z_plus:
+      slot: 17
+      material: "LIME_STAINED_GLASS_PANE"
+      name: "&aZ轴 +1"
+      lore:
+        - "&7当前Z偏移: &e%amc_precise_z%"
+        - ""
+        - "&e左键: +1"
+        - "&e右键: +5"
+      actions:
+        - "adjust_pos: z 1"
+      right_click_actions:
+        - "adjust_pos: z 5"
+    
+    # 重置按钮
+    reset:
+      slot: 4
+      material: "BARRIER"
+      name: "&c&l重置所有偏移"
+      lore:
+        - "&7将所有轴的偏移重置为0"
+        - ""
+        - "&e点击重置"
+      actions:
+        - "adjust_pos: reset 0"
+    
+    # 当前信息
+    info:
+      slot: 22
+      material: "PAPER"
+      name: "&e&l当前精确位置"
+      lore:
+        - "&7X偏移: &e%amc_precise_x%"
+        - "&7Y偏移: &e%amc_precise_y%"
+        - "&7Z偏移: &e%amc_precise_z%"
+        - ""
+        - "&7生物将在刷怪笼位置"
+        - "&7加上这些偏移值处生成"
+        - ""
+        - "&7偏移范围应在激活范围内"
+      actions: []
+    
+    # 返回按钮
+    back:
+      slot: 18
+      material: "ARROW"
+      name: "&e返回"
+      lore:
+        - "&7返回主菜单"
+      actions:
+        - "open_gui: main_menu"
