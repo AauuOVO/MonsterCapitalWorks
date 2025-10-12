@@ -1,0 +1,81 @@
+# Aauu Mob Capital (AMC) - 主配置文件
+# 版本: 1.0
+
+# 数据库设置
+database:
+  type: sqlite
+  # SQLite数据库文件路径（相对于插件文件夹）
+  file: data/amc.db
+
+# 经济设置
+economy:
+  # 是否启用经济功能（需要Vault）
+  enabled: true
+
+# 普通刷怪笼设置
+normal_spawner:
+  # 基础数量限制
+  base_limit: 5
+  # 数量购买设置
+  limit_purchase:
+    enabled: true
+    base_price: 1000
+    price_multiplier: 1.2
+    max_purchasable: 50
+
+# 付费刷怪笼设置
+premium_spawner:
+  # 基础数量限制
+  base_limit: 2
+  # 数量购买设置
+  limit_purchase:
+    enabled: true
+    base_price: 5000
+    price_multiplier: 1.5
+    max_purchasable: 20
+
+# 数量上限购买费用设置（用于GUI中的购买功能）
+limits:
+  normal:
+    base: 5  # 基础限制
+    buy_cost_per_slot: 1000.0  # 每个位置的购买费用
+  premium:
+    base: 2  # 基础限制
+    buy_cost_per_slot: 5000.0  # 每个位置的购买费用
+
+# 刷怪机制设置
+spawning:
+  # 默认生成数量（每波）
+  default_spawn_count: 1
+  # 默认生成间隔（tick，20 tick = 1秒）
+  default_spawn_delay: 100
+  # 默认最大附近实体数
+  default_max_nearby_entities: 6
+  # 默认激活范围（方块）
+  default_activation_range: 16
+  # 最大存储设置
+  storage:
+    enabled: true
+    # 默认最大存储容量
+    default_max_storage: 100
+    # 默认存储时间（秒）
+    default_storage_time: 3600
+    # 存储释放间隔（tick）
+    release_interval: 20
+
+# 性能优化设置
+performance:
+  # 刷怪笼处理间隔（tick）
+  spawner_tick_interval: 20
+  # 每tick处理的最大刷怪笼数量
+  max_spawners_per_tick: 10
+  # 是否使用异步处理
+  async_processing: true
+
+# PlaceholderAPI设置
+placeholderapi:
+  # 是否启用PAPI支持
+  enabled: true
+
+# 调试模式
+debug: false

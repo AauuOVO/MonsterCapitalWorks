@@ -1,0 +1,113 @@
+# 升级菜单配置
+title: "&b&l升级刷怪笼"
+size: 54
+items:
+  # 速度升级
+  speed:
+    slot: 10
+    material: "FEATHER"
+    name: "&b生成速度 &7(等级 %amc_speed_level%)"
+    lore:
+      - "&7减少生成间隔时间"
+      - ""
+      - "&7当前值: &e%amc_speed_value% tick"
+      - "&7下一级: &a%amc_speed_next_value% tick"
+      - ""
+      - "&7升级费用: &e%amc_speed_cost%"
+      - ""
+      - "&7前置需求:"
+      - "%amc_speed_required%"
+      - ""
+      - "&e左键点击升级"
+    actions:
+      - "upgrade: speed"
+  
+  # 数量升级
+  count:
+    slot: 12
+    material: "SLIME_BALL"
+    name: "&a生成数量 &7(等级 %amc_count_level%)"
+    lore:
+      - "&7增加每波生成的实体数量"
+      - ""
+      - "&7当前值: &e%amc_count_value%"
+      - "&7下一级: &a%amc_count_next_value%"
+      - ""
+      - "&7升级费用: &e%amc_count_cost%"
+      - ""
+      - "&7前置需求:"
+      - "%amc_count_required%"
+      - ""
+      - "&e左键点击升级"
+    actions:
+      - "upgrade: count"
+  
+  # 最大附近实体升级
+  max_nearby:
+    slot: 14
+    material: "ENDER_PEARL"
+    name: "&e最大附近实体 &7(等级 %amc_max_nearby_level%)"
+    lore:
+      - "&7增加允许的最大附近实体数"
+      - ""
+      - "&7当前值: &e%amc_max_nearby_value%"
+      - "&7下一级: &a%amc_max_nearby_next_value%"
+      - ""
+      - "&7升级费用: &e%amc_max_nearby_cost%"
+      - ""
+      - "&7前置需求:"
+      - "%amc_max_nearby_required%"
+      - ""
+      - "&e左键点击升级"
+    actions:
+      - "upgrade: max_nearby"
+  
+  # 激活范围升级
+  range:
+    slot: 16
+    material: "COMPASS"
+    name: "&d激活范围 &7(等级 %amc_range_level%)"
+    lore:
+      - "&7增加刷怪笼的激活范围"
+      - ""
+      - "&7当前值: &e%amc_range_value% 方块"
+      - "&7下一级: &a%amc_range_next_value% 方块"
+      - ""
+      - "&7升级费用: &e%amc_range_cost%"
+      - ""
+      - "&7前置需求:"
+      - "%amc_range_required%"
+      - ""
+      - "&e左键点击升级"
+    actions:
+      - "upgrade: range"
+  
+  # 最大存储升级
+  storage:
+    slot: 28
+    material: "CHEST"
+    name: "&6最大存储 &7(等级 %amc_storage_level%)"
+    lore:
+      - "&7增加离线时的最大累积生成次数"
+      - ""
+      - "&7当前值: &e%amc_storage_value%"
+      - "&7下一级: &a%amc_storage_next_value%"
+      - ""
+      - "&7升级费用: &e%amc_storage_cost%"
+      - ""
+      - "&7前置需求:"
+      - "%amc_storage_required%"
+      - ""
+      - "&e左键点击升级"
+    actions:
+      - "upgrade: storage"
+  
+  # 返回按钮
+  back:
+    slot: 49
+    material: "ARROW"
+    name: "&e返回"
+    lore:
+      - "&7返回主菜单"
+    actions:
+      - "open_gui: main_menu"

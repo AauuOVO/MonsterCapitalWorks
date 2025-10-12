@@ -1,0 +1,101 @@
+# 主菜单配置
+title: "&6&l刷怪笼控制面板"
+size: 27
+items:
+  # 升级按钮
+  upgrade:
+    slot: 11
+    material: "DIAMOND"
+    name: "&b&l升级刷怪笼"
+    lore:
+      - "&7点击查看可升级选项"
+      - ""
+      - "&7当前等级:"
+      - "&e  速度: %amc_speed_level%"
+      - "&e  数量: %amc_count_level%"
+      - "&e  范围: %amc_range_level%"
+    actions:
+      - "open_gui: upgrade_menu"
+  
+  # 开关按钮
+  toggle_active:
+    slot: 13
+    material: "LEVER"
+    name: "&e&l刷怪笼开关"
+    lore:
+      - "&7当前状态: %amc_status%"
+      - ""
+      - "&a开启: &7正常刷怪"
+      - "&c关闭: &7仅存储生物"
+      - ""
+      - "&e点击切换状态"
+    actions:
+      - "toggle_active"
+  
+  # 选择生物按钮
+  entities:
+    slot: 14
+    material: "SPAWN_EGG"
+    name: "&a&l选择生物"
+    lore:
+      - "&7点击选择生成的生物类型"
+      - ""
+      - "&7当前生物: &e%amc_entity%"
+    actions:
+      - "open_gui: entity_menu"
+  
+  # 购买数量按钮
+  buy_limit:
+    slot: 15
+    material: "GOLD_INGOT"
+    name: "&6&l购买数量上限"
+    lore:
+      - "&7点击购买更多刷怪笼位"
+      - ""
+      - "&7当前: &e%amc_placed%/%amc_limit%"
+      - "&7已购买: &e%amc_purchased%"
+    actions:
+      - "open_gui: buy_limit_menu"
+  
+  # 生成模式设置按钮
+  spawn_mode:
+    slot: 16
+    material: "ENDER_PEARL"
+    name: "&d&l生成模式设置"
+    lore:
+      - "&7当前模式: %amc_spawn_mode%"
+      - "&7精确位置: %amc_precise_pos%"
+      - ""
+      - "&e左键: &7切换生成模式"
+      - "&e右键: &7打开精确位置设置"
+      - ""
+      - "&c需要权限: &7amc.spawnmode.precise"
+    actions:
+      - "toggle_spawn_mode"
+    right_click_actions:
+      - "open_gui: precise_pos_menu"
+  
+  # 信息按钮
+  info:
+    slot: 22
+    material: "BOOK"
+    name: "&e&l刷怪笼信息"
+    lore:
+      - "&7类型: &e%amc_type%"
+      - "&7生物: &e%amc_entity%"
+      - "&7位置: &e%amc_location%"
+      - ""
+      - "&7状态: %amc_active%"
+      - "&7存储: &e%amc_stored%"
+      - "&7生成模式: %amc_spawn_mode%"
+    actions: []
+  
+  # 关闭按钮
+  close:
+    slot: 26
+    material: "BARRIER"
+    name: "&c&l关闭"
+    lore:
+      - "&7点击关闭界面"
+    actions:
+      - "close"

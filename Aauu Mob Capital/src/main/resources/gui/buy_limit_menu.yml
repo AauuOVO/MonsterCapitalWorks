@@ -1,0 +1,62 @@
+# 购买数量上限菜单配置
+title: "&6&l购买数量上限"
+size: 27
+items:
+  # 购买1个
+  buy_1:
+    slot: 10
+    material: "GOLD_NUGGET"
+    name: "&e购买 1 个位置"
+    lore:
+      - "&7费用: &e%amc_buy_1_cost%"
+      - ""
+      - "&e左键点击购买"
+    actions:
+      - "purchase: limit 1"
+  
+  # 购买5个
+  buy_5:
+    slot: 12
+    material: "GOLD_INGOT"
+    name: "&e购买 5 个位置"
+    lore:
+      - "&7费用: &e%amc_buy_5_cost%"
+      - ""
+      - "&e左键点击购买"
+    actions:
+      - "purchase: limit 5"
+  
+  # 购买10个
+  buy_10:
+    slot: 14
+    material: "GOLD_BLOCK"
+    name: "&e购买 10 个位置"
+    lore:
+      - "&7费用: &e%amc_buy_10_cost%"
+      - ""
+      - "&e左键点击购买"
+    actions:
+      - "purchase: limit 10"
+  
+  # 当前信息
+  info:
+    slot: 16
+    material: "PAPER"
+    name: "&6当前信息"
+    lore:
+      - "&7基础数量: &e%amc_base_limit%"
+      - "&7权限数量: &e%amc_perm_limit%"
+      - "&7已购买: &e%amc_purchased%"
+      - ""
+      - "&7总计: &a%amc_limit%"
+    actions: []
+  
+  # 返回按钮
+  back:
+    slot: 22
+    material: "ARROW"
+    name: "&e返回"
+    lore:
+      - "&7返回主菜单"
+    actions:
+      - "open_gui: main_menu"
