@@ -1,0 +1,116 @@
+# MonsterCapitalWorks (MCW) - 主配置文件
+# 版本: 2.1
+
+# 数据库设置
+database:
+  type: sqlite
+  file: data/mcw.db
+
+# 经济设置
+economy:
+  # 是否启用经济功能（需要Vault）
+  enabled: true
+
+# PlaceholderAPI设置
+placeholderapi:
+  # 是否启用PAPI支持
+  enabled: true
+
+
+
+# 刷怪机制设置
+spawning:
+  # 默认生成数量（每波）
+  default_spawn_count: 1
+  # 默认生成间隔（tick，20 tick = 1秒）
+  default_spawn_delay: 200
+  # 默认最大附近实体数
+  default_max_nearby_entities: 1
+  # 默认激活范围（方块）
+  default_activation_range: 6
+  # 最大存储设置
+  storage:
+    enabled: true
+    # 默认最大存储容量
+    default_max_storage: 5
+    # 默认存储时间（秒）
+    default_storage_time: 3600
+    # 存储释放间隔（tick）
+    release_interval: 20
+
+# 刷怪笼自定义名称设置
+# 支持RGB颜色代码格式: {#RRGGBB}
+# 支持传统颜色代码: &a, &b, &c 等
+spawner_names:
+  # 是否启用自定义名称功能
+  enabled: true
+  # 默认刷怪笼名称格式（当未设置自定义名称时使用）
+  # 可用变量: %type% (类型名称), %entity% (实体名称)
+  default_format: "{#FFD700}%type% 刷怪笼"
+  
+  # 刷怪笼类型配置
+  types:
+    # 普通刷怪笼配置
+    NORMAL:
+      # 类型显示名称
+      display_name: "&a普通刷怪笼"
+      # 默认格式（当实体没有自定义名称时使用）
+      # 可用变量: %entity% (实体名称)
+      default_entity_format: "&a普通生成器 &7- &f%entity%"
+      # 自定义实体名称配置
+      # 格式: "实体类型": "自定义显示名称"
+      custom_names:
+        ZOMBIE: "&a普通生成器 &7- &2僵尸"
+        SKELETON: "&a普通生成器 &7- &f骷髅"
+        CREEPER: "&a普通生成器 &7- &a苦力怕"
+        COW: "&a普通生成器 &7- {#00FF00}奶牛"
+        PIG: "&a普通生成器 &7- &d猪"
+    
+    # 付费刷怪笼配置
+    PREMIUM:
+      # 类型显示名称
+      display_name: "{#FFD700}付费刷怪笼"
+      # 默认格式（当实体没有自定义名称时使用）
+      default_entity_format: "{#FFD700}高级生成器 &7- &f%entity%"
+      # 自定义实体名称配置
+      custom_names:
+        ZOMBIE: "{#FFD700}高级生成器 &7- &2僵尸"
+        WITHER: "{#FFD700}高级生成器 &7- &8凋零"
+        ENDER_DRAGON: "{#FFD700}高级生成器 &7- &5末影龙"
+
+# 实体菜单刷怪蛋自定义名称设置
+# 支持RGB颜色代码格式: {#RRGGBB}
+entity_spawn_egg_names:
+  # 是否启用刷怪蛋自定义名称
+  enabled: true
+  # 默认刷怪蛋名称格式
+  # 可用变量: %entity% (实体名称), %type% (刷怪笼类型)
+  default_format: "&e%entity% &7刷怪蛋"
+  # 自定义刷怪蛋名称
+  # 格式: "实体类型": "自定义显示名称"
+  custom_names:
+    ZOMBIE: "{#00FF00}僵尸 &7刷怪蛋"
+    SKELETON: "&f骷髅 &7刷怪蛋"
+    CREEPER: "&a苦力怕 &7刷怪蛋"
+    COW: "{#8B4513}奶牛 &7刷怪蛋"
+    PIG: "{#FFC0CB}猪 &7刷怪蛋"
+    WITHER: "{#1a1a1a}凋零 &7刷怪蛋"
+    ENDER_DRAGON: "{#9B30FF}末影龙 &7刷怪蛋"
+
+# 刷怪笼默认实体设置
+default_entities:
+  # 当使用 /mcw give 命令不指定实体时的默认实体
+  normal: ZOMBIE
+  premium: ZOMBIE
+
+# 性能优化设置
+performance:
+  # 刷怪笼处理间隔（tick）
+  spawner_tick_interval: 20
+  # 每tick处理的最大刷怪笼数量
+  max_spawners_per_tick: 10
+  # 是否使用异步处理
+  async_processing: true
+
+# 调试模式
+debug: false

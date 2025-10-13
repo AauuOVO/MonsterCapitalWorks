@@ -1,0 +1,171 @@
+# 精确位置设置菜单配置
+title: "&d&l精确位置设置"
+size: 54
+
+# 菜单布局
+layout:
+  - "#########"
+  - "#A#B#C#D#"
+  - "#########"
+  - "#E#F#G#H#"
+  - "#########"
+  - "##I###J##"
+
+# 图标定义
+icons:
+  # 灰色玻璃板填充
+  '#':
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+  
+  # X轴减少
+  'A':
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&cX轴 -1"
+    lore:
+      - "&7当前X偏移: &e%amc_precise_x%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: -1"
+      - "&e右键: -5"
+    actions:
+      - "adjust_pos: x -1"
+    right_click_actions:
+      - "adjust_pos: x -5"
+  
+  # X轴信息
+  'B':
+    material: "ORANGE_STAINED_GLASS_PANE"
+    name: "&6X轴偏移"
+    lore:
+      - "&7当前值: &e%amc_precise_x%"
+      - ""
+      - "&7调整生物在X轴的生成位置"
+      - "&7范围: &e±%amc_range_value% &7格"
+    actions:
+      - "adjust_pos: x 0"
+  
+  # X轴增加
+  'C':
+    material: "LIME_STAINED_GLASS_PANE"
+    name: "&aX轴 +1"
+    lore:
+      - "&7当前X偏移: &e%amc_precise_x%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: +1"
+      - "&e右键: +5"
+    actions:
+      - "adjust_pos: x 1"
+    right_click_actions:
+      - "adjust_pos: x 5"
+  
+  # 重置按钮
+  'D':
+    material: "BARRIER"
+    name: "&c&l重置所有偏移"
+    lore:
+      - "&7将所有轴的偏移重置为0"
+      - ""
+      - "&e点击重置"
+    actions:
+      - "adjust_pos: reset 0"
+  
+  # Y轴减少
+  'E':
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&cY轴 -1"
+    lore:
+      - "&7当前Y偏移: &e%amc_precise_y%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: -1"
+      - "&e右键: -5"
+    actions:
+      - "adjust_pos: y -1"
+    right_click_actions:
+      - "adjust_pos: y -5"
+  
+  # Y轴信息
+  'F':
+    material: "ORANGE_STAINED_GLASS_PANE"
+    name: "&6Y轴偏移"
+    lore:
+      - "&7当前值: &e%amc_precise_y%"
+      - ""
+      - "&7调整生物在Y轴的生成位置"
+      - "&7范围: &e±%amc_range_value% &7格"
+    actions:
+      - "adjust_pos: y 0"
+  
+  # Y轴增加
+  'G':
+    material: "LIME_STAINED_GLASS_PANE"
+    name: "&aY轴 +1"
+    lore:
+      - "&7当前Y偏移: &e%amc_precise_y%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: +1"
+      - "&e右键: +5"
+    actions:
+      - "adjust_pos: y 1"
+    right_click_actions:
+      - "adjust_pos: y 5"
+  
+  # 当前信息
+  'H':
+    material: "PAPER"
+    name: "&e&l当前精确位置"
+    lore:
+      - "&7X偏移: &e%amc_precise_x%"
+      - "&7Y偏移: &e%amc_precise_y%"
+      - "&7Z偏移: &e%amc_precise_z%"
+      - ""
+      - "&7生物将在刷怪笼位置"
+      - "&7加上这些偏移值处生成"
+      - ""
+      - "&7偏移范围: &e±%amc_range_value% &7格"
+    actions: []
+  
+  # Z轴减少
+  'I':
+    material: "RED_STAINED_GLASS_PANE"
+    name: "&cZ轴 -1"
+    lore:
+      - "&7当前Z偏移: &e%amc_precise_z%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: -1"
+      - "&e右键: -5"
+    actions:
+      - "adjust_pos: z -1"
+    right_click_actions:
+      - "adjust_pos: z -5"
+  
+  # Z轴信息 (隐藏在布局中，但保留定义以防需要)
+  'K':
+    material: "ORANGE_STAINED_GLASS_PANE"
+    name: "&6Z轴偏移"
+    lore:
+      - "&7当前值: &e%amc_precise_z%"
+      - ""
+      - "&7调整生物在Z轴的生成位置"
+      - "&7范围: &e±%amc_range_value% &7格"
+    actions:
+      - "adjust_pos: z 0"
+  
+  # Z轴增加
+  'J':
+    material: "LIME_STAINED_GLASS_PANE"
+    name: "&aZ轴 +1"
+    lore:
+      - "&7当前Z偏移: &e%amc_precise_z%"
+      - "&7激活范围: &e±%amc_range_value%"
+      - ""
+      - "&e左键: +1"
+      - "&e右键: +5"
+    actions:
+      - "adjust_pos: z 1"
+    right_click_actions:
+      - "adjust_pos: z 5"

@@ -1,0 +1,152 @@
+# 普通刷怪笼 - 实体配置文件
+# 
+# require_unlock 字段说明（重要！）：
+#   true  = 免费解锁，玩家无需购买即可直接使用（这是默认值）
+#   false = 需要花钱购买解锁
+# 
+# 默认行为：
+#   - 如果不写 require_unlock 字段，默认为 true（免费解锁）
+#   - 只有明确写 require_unlock: false 的生物才需要花钱解锁
+#   - 所有未在此文件中配置的生物都默认免费解锁
+#
+# conditions 字段说明（PAPI条件判断）：
+#   使用 PlaceholderAPI 变量进行条件判断，在生成怪物时检查
+#   
+#   格式：每个条件是一个字符串，使用 PAPI 变量和比较运算符
+#   
+#   可用的比较运算符：
+#   - ==  等于
+#   - !=  不等于
+#   - >   大于
+#   - >=  大于等于
+#   - <   小于
+#   - <=  小于等于
+#   
+#   常用的 PAPI 变量示例：
+#   - %world_name%           # 当前世界名称（如 "world", "world_nether", "world_the_end"）
+#   - %player_world%         # 玩家所在世界
+#   - 其他PlaceholderAPI支持的变量
+#   
+#   注意事项：
+#   - 所有条件必须同时满足才能生成怪物
+#   - 如果不写 conditions，则刷怪笼可以正常生成，无任何限制
+#   - 拥有 mcw.bypass.conditions 权限的玩家可以绕过这些限制
+#   - 需要安装 PlaceholderAPI 插件才能使用变量
+#   
+#   示例：
+#   conditions:
+#     - "%world_name% == world_nether"    # 只能在下界生成怪物
+#     - "%player_world% != world_the_end" # 不能在末地生成怪物
+#
+# spawn_conditions 字段说明（Y坐标条件判断）：
+#   插件内部判断刷怪笼放置位置的Y坐标，在放置刷怪笼时检查
+#   
+#   可用字段：
+#   - min_y: 数字              # 刷怪笼必须放置在 Y坐标 >= 此值的位置
+#   - max_y: 数字              # 刷怪笼必须放置在 Y坐标 <= 此值的位置
+#   
+#   注意事项：
+#   - 所有字段都是可选的，不填写则不限制
+#   - 如果不写 spawn_conditions，则刷怪笼可以在任何Y坐标放置
+#   - 拥有 mcw.bypass.conditions 权限的玩家可以绕过这些限制
+#   
+#   示例：
+#   spawn_conditions:
+#     min_y: 0                 # 刷怪笼必须放置在Y >= 0的位置
+#     max_y: 128               # 刷怪笼必须放置在Y <= 128的位置
+
+entities:
+  COW:
+    name: "{#00FF00}奶牛"  # 支持RGB颜色格式 {#RRGGBB}
+    lore:
+      - "&7一种温顺的动物"
+      - "&7可以产出牛奶和牛肉"
+      - ""
+      - "&e示例: 使用 {#FF5733}RGB颜色"
+    price: 2000
+    # require_unlock: true  # 默认是true，免费解锁
+  
+  SHEEP:
+    name: "&f绵羊"
+    lore:
+      - "&7可以剪羊毛的动物"
+      - "&7提供羊毛和羊肉"
+    price: 2000
+  
+  PIG:
+    name: "&d猪"
+    lore:
+      - "&7可爱的粉色动物"
+      - "&7提供猪肉"
+    price: 2000
+  
+  CHICKEN:
+    name: "&e鸡"
+    lore:
+      - "&7会下蛋的家禽"
+      - "&7提供鸡肉和羽毛"
+    price: 1500
+  
+  RABBIT:
+    price: 1500
+  
+  ZOMBIE:
+    name: "&2僵尸"
+    lore:
+      - "&7亡灵生物"
+      - "&7会掉落腐肉"
+    price: 0
+    spawn_conditions:
+      min_y: 30                           # Y坐标条件：刷怪笼必须放置在Y >= 30
+      # max_y 不填表示不限制最大高度
+
+  SKELETON:
+    price: 800
+  
+  CREEPER:
+    price: 1000
+  
+  SPIDER:
+    price: 600
+    require_unlock: false
+  
+  ENDERMAN:
+    price: 3000
+  
+  IRON_GOLEM:
+    price: 5000
+  
+  WOLF:
+    price: 2500
+  
+  WITHER:
+    price: 50000
+    enabled: false
+  
+  ENDER_DRAGON:
+    price: 100000
+    enabled: false
+  
+  # 条件生成的生物示例
+  BLAZE:
+    name: "&6烈焰人"
+    lore:
+      - "&7下界的火焰生物"
+      - "&7掉落烈焰棒"
+      - ""
+      - "&c只能在下界使用"
+      - "&7需要Y坐标: 0-128"
+    price: 4000
+    conditions:
+      - "%world_name% == world_nether"    # PAPI条件：只能在下界生成怪物
+    spawn_conditions:
+      min_y: 0                            # Y坐标条件：刷怪笼必须放置在Y >= 0
+      max_y: 128                          # Y坐标条件：刷怪笼必须放置在Y <= 128
+  
+  GHAST:
+    price: 5000
+    conditions:
+      - "%world_name% == world_nether"    # PAPI条件：只能在下界生成怪物
+    spawn_conditions:
+      min_y: 50                           # Y坐标条件：刷怪笼必须放置在Y >= 50
+      # max_y 不填表示不限制最大高度
