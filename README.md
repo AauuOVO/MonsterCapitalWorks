@@ -223,7 +223,7 @@ cd Aauu-Mob-Capital
 mvn clean package
 
 # 编译后的 jar 文件位于
-# target/Aauu_Mob_Capital-1.0.jar
+# target/Aauu_Mob_Capital-2.0.jar
 ```
 
 ## 🐛 问题反馈
@@ -250,3 +250,4 @@ mvn clean package
 ---
 
 ⭐ 如果这个项目对您有帮助，请给个 Star 支持一下！
+
