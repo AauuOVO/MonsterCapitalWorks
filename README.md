@@ -44,6 +44,12 @@
 - 精确位置设置界面
 - 购买限制管理界面
 
+### 🎒 便捷拾取系统
+- **Shift+左键** 快速拾取刷怪笼
+- 自动保留所有升级信息
+- 所有权保护，防止误操作
+- 比命令更方便的操作方式
+
 ### 🔐 权限系统
 - 细粒度的权限控制
 - 支持普通和付费刷怪笼分离权限
@@ -75,7 +81,8 @@
 ### 安装步骤
 
 1. **下载插件**
-   - 自行编译（见下方编译说明）
+   - 从 [Releases](../../releases) 页面下载最新版本的 jar 文件
+   - 或者自行编译（见下方编译说明）
 
 2. **安装依赖**
    - 确保已安装 Vault 插件
@@ -108,7 +115,8 @@
 - 实体：可选，默认为 PIG
 
 #### 管理刷怪笼
-- 右键点击已放置的刷怪笼打开管理界面
+- **右键点击**刷怪笼打开管理界面
+- **Shift+左键**快速拾取刷怪笼（保留所有升级）
 - 可以进行升级、设置精确位置、管理存储等操作
 
 #### 查看信息
@@ -128,7 +136,9 @@
 | `/amc give <玩家> <类型> [实体]` | 给予玩家刷怪笼 | `amc.admin.give` |
 | `/amc info` | 查看刷怪笼信息 | `amc.use` |
 | `/amc list [玩家]` | 列出刷怪笼 | `amc.use` |
-| `/amc remove` | 移除刷怪笼 | `amc.admin.remove` |
+| `/amc remove` | 移除刷怪笼（不掉落） | `amc.admin.remove` |
+
+**💡 提示**: 推荐使用 **Shift+左键** 拾取刷怪笼，而不是 `/amc remove` 命令，因为可以保留所有升级信息！
 
 ### 权限节点
 
@@ -139,10 +149,14 @@
 | `amc.premium` | 使用付费刷怪笼 | op |
 | `amc.admin.reload` | 重载配置 | op |
 | `amc.admin.give` | 给予刷怪笼 | op |
-| `amc.admin.remove` | 移除刷怪笼 | op |
+| `amc.admin.remove` | 移除刷怪笼（命令） | op |
+| `amc.admin.pickup` | 拾取任何玩家的刷怪笼 | op |
+| `amc.admin.break` | 破坏任何玩家的刷怪笼 | op |
+| `amc.admin.use` | 使用任何玩家的刷怪笼 | op |
 | `amc.admin.list.others` | 查看其他玩家的刷怪笼 | op |
 | `amc.bypass.limit` | 绕过放置限制 | op |
 | `amc.bypass.cost` | 绕过购买费用 | op |
+| `amc.spawnmode.precise` | 使用精确生成模式 | true |
 
 ## ⚙️ 配置说明
 
@@ -236,4 +250,3 @@ mvn clean package
 ---
 
 ⭐ 如果这个项目对您有帮助，请给个 Star 支持一下！
-
