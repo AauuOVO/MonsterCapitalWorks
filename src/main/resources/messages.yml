@@ -7,6 +7,7 @@ error:
   unknown_command: "&c无效的命令！使用 /amc help 查看帮助。"
   player_not_found: "&c玩家不存在！"
   not_owner: "&c你没有权限操作！"
+  not_your_spawner: "&c这不是你的刷怪笼！"
   spawner_limit_reached: "&c你已达到刷怪笼数量上限！（%limit%）"
   insufficient_funds: "&c余额不足！"
 
@@ -14,6 +15,7 @@ error:
 success:
   reloaded: "&a配置已重载！"
   removed_spawner: "&a刷怪笼已移除！"
+  spawner_dropped: "&a刷怪笼已掉落！"
   entity_unlocked: "&a成功解锁生物！"
   upgraded: "&a升级成功！"
   limit_purchased: "&a成功购买数量上限！"

@@ -33,7 +33,9 @@ public class GUIManager {
     }
     
     public void openMainMenu(Player player, Spawner spawner) {
-        FileConfiguration guiConfig = plugin.getConfigManager().getGuiConfig("main_menu");
+        // 根据刷怪笼类型选择不同的菜单
+        String menuName = spawner.getType() == SpawnerType.NORMAL ? "main_menu_normal" : "main_menu_premium";
+        FileConfiguration guiConfig = plugin.getConfigManager().getGuiConfig(menuName);
         if (guiConfig == null) {
             return;
         }
@@ -62,7 +64,7 @@ public class GUIManager {
         }
         
         player.openInventory(inv);
-        openGuis.put(player.getUniqueId(), "main_menu");
+        openGuis.put(player.getUniqueId(), menuName);
         selectedSpawners.put(player.getUniqueId(), spawner);
     }
     
@@ -297,7 +299,10 @@ public class GUIManager {
             List<String> lore = section.getStringList("lore");
             List<String> processedLore = new ArrayList<>();
             for (String line : lore) {
-                processedLore.add(colorize(line));
+                // 过滤掉包含"用刷怪蛋交互时"的lore行（隐藏flag信息）
+                if (!line.contains("用刷怪蛋交互时") && !line.contains("spawn_egg_interact")) {
+                    processedLore.add(colorize(line));
+                }
             }
             
             // 添加价格和状态信息
@@ -381,7 +386,17 @@ public class GUIManager {
     private void handleEntitySelection(Player player, Spawner spawner, EntityType entityType, ConfigurationSection entityConfig) {
         boolean enabled = entityConfig.getBoolean("enabled", true);
         if (!enabled) {
+            player.sendMessage("§c该生物已被禁用！");
             return;
+        }
+        
+        // 检查spawn_condition条件
+        if (entityConfig.contains("spawn_condition")) {
+            String condition = entityConfig.getString("spawn_condition");
+            if (!checkSpawnCondition(player, spawner.getLocation(), condition)) {
+                player.sendMessage("§c当前环境不满足生成条件！");
+                return;
+            }
         }
         
         boolean requireUnlock = entityConfig.getBoolean("require_unlock", true);
@@ -410,6 +425,137 @@ public class GUIManager {
             plugin.getSpawnerManager().updateSpawnerEntity(spawner.getLocation(), entityType);
             plugin.getSpawnerManager().saveSpawner(spawner);
             player.closeInventory();
+            player.sendMessage("§a已切换刷怪笼生物类型！");
+        }
+    }
+    
+    /**
+     * 检查生成条件
+     * @param player 玩家
+     * @param location 刷怪笼位置
+     * @param condition 条件字符串
+     * @return 是否满足条件
+     */
+    private boolean checkSpawnCondition(Player player, Location location, String condition) {
+        if (condition == null || condition.isEmpty()) {
+            return true;
+        }
+        
+        // 替换PlaceholderAPI占位符
+        if (plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            condition = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, condition);
+            
+            // 如果条件中包含刷怪笼位置相关的占位符，需要特殊处理
+            // 例如：%world_biome% 需要在刷怪笼位置检查
+            if (condition.contains("%world_biome%") || condition.contains("%biome%")) {
+                // 获取刷怪笼位置的生物群系
+                String biome = location.getBlock().getBiome().name().toLowerCase();
+                condition = condition.replace("%world_biome%", biome);
+                condition = condition.replace("%biome%", biome);
+            }
+            
+            if (condition.contains("%world_name%")) {
+                String worldName = location.getWorld().getName();
+                condition = condition.replace("%world_name%", worldName);
+            }
+        }
+        
+        // 评估条件表达式
+        return evaluateCondition(condition);
+    }
+    
+    /**
+     * 评估条件表达式
+     * @param condition 条件字符串
+     * @return 是否满足条件
+     */
+    private boolean evaluateCondition(String condition) {
+        try {
+            // 处理常见的比较运算符
+            condition = condition.trim();
+            
+            // 处理 == 运算符
+            if (condition.contains("==")) {
+                String[] parts = condition.split("==");
+                if (parts.length == 2) {
+                    String left = parts[0].trim();
+                    String right = parts[1].trim();
+                    return left.equalsIgnoreCase(right);
+                }
+            }
+            
+            // 处理 != 运算符
+            if (condition.contains("!=")) {
+                String[] parts = condition.split("!=");
+                if (parts.length == 2) {
+                    String left = parts[0].trim();
+                    String right = parts[1].trim();
+                    return !left.equalsIgnoreCase(right);
+                }
+            }
+            
+            // 处理 > 运算符
+            if (condition.contains(">") && !condition.contains(">=")) {
+                String[] parts = condition.split(">");
+                if (parts.length == 2) {
+                    try {
+                        double left = Double.parseDouble(parts[0].trim());
+                        double right = Double.parseDouble(parts[1].trim());
+                        return left > right;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                }
+            }
+            
+            // 处理 >= 运算符
+            if (condition.contains(">=")) {
+                String[] parts = condition.split(">=");
+                if (parts.length == 2) {
+                    try {
+                        double left = Double.parseDouble(parts[0].trim());
+                        double right = Double.parseDouble(parts[1].trim());
+                        return left >= right;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                }
+            }
+            
+            // 处理 < 运算符
+            if (condition.contains("<") && !condition.contains("<=")) {
+                String[] parts = condition.split("<");
+                if (parts.length == 2) {
+                    try {
+                        double left = Double.parseDouble(parts[0].trim());
+                        double right = Double.parseDouble(parts[1].trim());
+                        return left < right;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                }
+            }
+            
+            // 处理 <= 运算符
+            if (condition.contains("<=")) {
+                String[] parts = condition.split("<=");
+                if (parts.length == 2) {
+                    try {
+                        double left = Double.parseDouble(parts[0].trim());
+                        double right = Double.parseDouble(parts[1].trim());
+                        return left <= right;
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                }
+            }
+            
+            // 如果没有运算符，尝试解析为布尔值
+            return Boolean.parseBoolean(condition);
+            
+        } catch (Exception e) {
+            plugin.getLogger().warning("无法评估条件: " + condition + " - " + e.getMessage());
+            return false;
         }
     }
     
@@ -498,11 +644,10 @@ public class GUIManager {
             text = text.replace("%amc_base_limit%", String.valueOf(baseLimit));
             text = text.replace("%amc_perm_limit%", String.valueOf(permLimit));
             
-            // 购买费用占位符
-            double buy1Cost = plugin.getConfig().getDouble("limits." + spawner.getType().name().toLowerCase() + ".buy_cost_per_slot", 1000.0);
-            text = text.replace("%amc_buy_1_cost%", String.format("%.2f", buy1Cost * 1));
-            text = text.replace("%amc_buy_5_cost%", String.format("%.2f", buy1Cost * 5));
-            text = text.replace("%amc_buy_10_cost%", String.format("%.2f", buy1Cost * 10));
+            // 购买费用占位符（使用新的计算方法）
+            text = text.replace("%amc_buy_1_cost%", String.format("%.2f", calculatePurchaseCostForDisplay(player, spawner.getType(), 1)));
+            text = text.replace("%amc_buy_5_cost%", String.format("%.2f", calculatePurchaseCostForDisplay(player, spawner.getType(), 5)));
+            text = text.replace("%amc_buy_10_cost%", String.format("%.2f", calculatePurchaseCostForDisplay(player, spawner.getType(), 10)));
         }
         
         return text;
@@ -606,6 +751,18 @@ public class GUIManager {
                 openGui(player, spawner, guiName);
             } else if (action.equals("close")) {
                 player.closeInventory();
+            } else if (action.startsWith("command:")) {
+                // 玩家身份执行命令
+                String command = action.substring(8).trim();
+                executePlayerCommand(player, command);
+            } else if (action.startsWith("op:")) {
+                // OP身份执行命令（临时授予OP）
+                String command = action.substring(3).trim();
+                executeOpCommand(player, command);
+            } else if (action.startsWith("console:")) {
+                // 控制台执行命令
+                String command = action.substring(8).trim();
+                executeConsoleCommand(player, command);
             } else if (action.startsWith("upgrade:")) {
                 String upgradeName = action.substring(8).trim();
                 plugin.getUpgradeManager().upgradeSpawner(player, spawner, upgradeName);
@@ -747,10 +904,33 @@ public class GUIManager {
     }
     
     private void handlePurchaseLimit(Player player, SpawnerType type, int amount) {
-        double costPerSlot = plugin.getConfig().getDouble("limits." + type.name().toLowerCase() + ".buy_cost_per_slot", 1000.0);
-        double totalCost = costPerSlot * amount;
-        EconomyManager economy = plugin.getEconomyManager();
+        String typePath = "limits." + type.name().toLowerCase();
         
+        // 检查是否启用购买
+        if (!plugin.getConfig().getBoolean(typePath + ".purchase.enabled", true)) {
+            player.sendMessage("§c该类型刷怪笼不支持购买额外位置！");
+            return;
+        }
+        
+        // 获取玩家当前已购买数量
+        PlayerData data = plugin.getDataManager().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        
+        int currentPurchased = data.getPurchasedLimit(type);
+        int maxPurchasable = plugin.getConfig().getInt(typePath + ".purchase.max_purchasable", 50);
+        
+        // 检查是否超过最大可购买数量
+        if (currentPurchased + amount > maxPurchasable) {
+            player.sendMessage("§c购买失败！最多只能购买 " + maxPurchasable + " 个额外位置，你已购买 " + currentPurchased + " 个。");
+            return;
+        }
+        
+        // 计算总费用
+        double totalCost = calculatePurchaseCost(type, currentPurchased, amount);
+        
+        EconomyManager economy = plugin.getEconomyManager();
         if (economy == null || !economy.isEnabled()) {
             return;
         }
@@ -760,18 +940,68 @@ public class GUIManager {
             return;
         }
         
+        // 扣款并增加限制
         economy.withdraw(player, totalCost);
-        PlayerData data = plugin.getDataManager().getPlayerData(player.getUniqueId());
-        if (data != null) {
-            data.addPurchasedLimit(type, amount);
-            plugin.getDataManager().savePlayerData(data);
-            player.sendMessage(plugin.getConfigManager().getMessage("success.limit_purchased"));
+        data.addPurchasedLimit(type, amount);
+        plugin.getDataManager().savePlayerData(data);
+        
+        player.sendMessage("§a成功购买 " + amount + " 个额外位置！花费: §e" + String.format("%.2f", totalCost));
+    }
+    
+    /**
+     * 计算购买费用
+     * @param type 刷怪笼类型
+     * @param currentPurchased 当前已购买数量
+     * @param amount 要购买的数量
+     * @return 总费用
+     */
+    private double calculatePurchaseCost(SpawnerType type, int currentPurchased, int amount) {
+        String typePath = "limits." + type.name().toLowerCase() + ".purchase";
+        
+        double basePrice = plugin.getConfig().getDouble(typePath + ".base_price", 1000.0);
+        String priceMode = plugin.getConfig().getString(typePath + ".price_mode", "multiplier");
+        double multiplier = plugin.getConfig().getDouble(typePath + ".price_multiplier", 1.2);
+        
+        double totalCost = 0.0;
+        
+        if (priceMode.equalsIgnoreCase("fixed")) {
+            // 固定价格模式：每个位置价格相同
+            totalCost = basePrice * amount;
+        } else {
+            // 倍率递增模式：每次购买后价格递增
+            for (int i = 0; i < amount; i++) {
+                // 计算第 (currentPurchased + i + 1) 个位置的价格
+                // 公式: basePrice * (multiplier ^ currentPurchased)
+                double price = basePrice * Math.pow(multiplier, currentPurchased + i);
+                totalCost += price;
+            }
         }
+        
+        return totalCost;
+    }
+    
+    /**
+     * 计算购买指定数量的费用（用于占位符显示）
+     * @param player 玩家
+     * @param type 刷怪笼类型
+     * @param amount 要购买的数量
+     * @return 费用
+     */
+    private double calculatePurchaseCostForDisplay(Player player, SpawnerType type, int amount) {
+        PlayerData data = plugin.getDataManager().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return 0.0;
+        }
+        
+        int currentPurchased = data.getPurchasedLimit(type);
+        return calculatePurchaseCost(type, currentPurchased, amount);
     }
     
     private void openGui(Player player, Spawner spawner, String guiName) {
         switch (guiName) {
             case "main_menu":
+            case "main_menu_normal":
+            case "main_menu_premium":
                 openMainMenu(player, spawner);
                 break;
             case "upgrade_menu":
@@ -786,6 +1016,123 @@ public class GUIManager {
             case "precise_pos_menu":
                 openPrecisePosMenu(player, spawner);
                 break;
+        }
+    }
+    
+    /**
+     * 以玩家身份执行命令
+     * @param player 玩家
+     * @param command 命令（不带斜杠）
+     */
+    private void executePlayerCommand(Player player, String command) {
+        if (command == null || command.isEmpty()) {
+            return;
+        }
+        
+        try {
+            // 替换占位符
+            final String finalCommand = replacePlaceholders(command, player, selectedSpawners.get(player.getUniqueId()));
+            
+            // 在主线程执行命令
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                player.performCommand(finalCommand);
+            });
+            
+            if (plugin.getConfig().getBoolean("debug", false)) {
+                plugin.getLogger().info("玩家 " + player.getName() + " 执行命令: /" + finalCommand);
+            }
+        } catch (Exception e) {
+            plugin.getLogger().warning("执行玩家命令时出错: " + command);
+            plugin.getLogger().warning(e.getMessage());
+        }
+    }
+    
+    /**
+     * 以OP身份执行命令（临时授予OP权限）
+     * 注意：此方法会临时授予玩家OP权限，执行命令后立即撤销
+     * 建议优先使用console命令方式，此方式仅在必要时使用
+     * @param player 玩家
+     * @param command 命令（不带斜杠）
+     */
+    private void executeOpCommand(Player player, String command) {
+        if (command == null || command.isEmpty()) {
+            return;
+        }
+        
+        try {
+            // 替换占位符
+            final String finalCommand = replacePlaceholders(command, player, selectedSpawners.get(player.getUniqueId()));
+            
+            // 在主线程执行
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                boolean wasOp = player.isOp();
+                
+                try {
+                    // 临时授予OP权限
+                    if (!wasOp) {
+                        player.setOp(true);
+                    }
+                    
+                    // 执行命令
+                    player.performCommand(finalCommand);
+                    
+                    if (plugin.getConfig().getBoolean("debug", false)) {
+                        plugin.getLogger().info("玩家 " + player.getName() + " 以OP身份执行命令: /" + finalCommand);
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("以OP身份执行命令时出错: " + finalCommand);
+                    plugin.getLogger().warning(e.getMessage());
+                } finally {
+                    // 确保撤销OP权限（如果玩家原本不是OP）
+                    if (!wasOp && player.isOp()) {
+                        player.setOp(false);
+                    }
+                }
+            });
+        } catch (Exception e) {
+            plugin.getLogger().warning("准备OP命令时出错: " + command);
+            plugin.getLogger().warning(e.getMessage());
+        }
+    }
+    
+    /**
+     * 以控制台身份执行命令
+     * 这是最安全和推荐的命令执行方式
+     * @param player 玩家（用于占位符替换）
+     * @param command 命令（不带斜杠）
+     */
+    private void executeConsoleCommand(Player player, String command) {
+        if (command == null || command.isEmpty()) {
+            return;
+        }
+        
+        try {
+            // 替换占位符
+            String processedCommand = replacePlaceholders(command, player, selectedSpawners.get(player.getUniqueId()));
+            
+            // 替换玩家名称占位符
+            processedCommand = processedCommand.replace("%player%", player.getName());
+            processedCommand = processedCommand.replace("%player_name%", player.getName());
+            processedCommand = processedCommand.replace("%player_uuid%", player.getUniqueId().toString());
+            
+            final String finalCommand = processedCommand;
+            
+            // 在主线程以控制台身份执行命令
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                try {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommand);
+                    
+                    if (plugin.getConfig().getBoolean("debug", false)) {
+                        plugin.getLogger().info("控制台执行命令: /" + finalCommand);
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("控制台执行命令时出错: " + finalCommand);
+                    plugin.getLogger().warning(e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            plugin.getLogger().warning("准备控制台命令时出错: " + command);
+            plugin.getLogger().warning(e.getMessage());
         }
     }
 }

@@ -107,7 +107,8 @@ public class AMCCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         
-        EntityType entityType = EntityType.PIG;
+        // 获取实体类型，如果未指定则使用配置文件中的默认值
+        EntityType entityType;
         if (args.length >= 4) {
             try {
                 entityType = EntityType.valueOf(args[3].toUpperCase());
@@ -115,12 +116,24 @@ public class AMCCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§c无效实体！");
                 return true;
             }
+        } else {
+            // 从配置文件读取默认实体
+            String defaultEntityStr = plugin.getConfig().getString("default_entities." + type.name().toLowerCase(), "ZOMBIE");
+            try {
+                entityType = EntityType.valueOf(defaultEntityStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                entityType = EntityType.ZOMBIE; // 如果配置错误，使用僵尸作为后备
+                plugin.getLogger().warning("配置文件中的默认实体 " + defaultEntityStr + " 无效，使用 ZOMBIE 作为默认值");
+            }
         }
         
         org.bukkit.inventory.ItemStack spawner = new org.bukkit.inventory.ItemStack(Material.SPAWNER);
         org.bukkit.inventory.meta.ItemMeta meta = spawner.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName("§6" + type.name() + " 刷怪笼");
+            // 获取自定义名称
+            String displayName = getSpawnerDisplayName(type, entityType);
+            meta.setDisplayName(displayName);
+            
             List<String> lore = new ArrayList<>();
             lore.add("§7类型: §e" + type.name());
             lore.add("§7实体: §e" + entityType.name());
@@ -129,8 +142,60 @@ public class AMCCommand implements CommandExecutor, TabCompleter {
         }
         
         target.getInventory().addItem(spawner);
-        sender.sendMessage("§a已给予刷怪笼！");
+        sender.sendMessage("§a已给予 " + target.getName() + " 刷怪笼！");
         return true;
+    }
+    
+    /**
+     * 获取刷怪笼的显示名称
+     * @param type 刷怪笼类型
+     * @param entityType 实体类型
+     * @return 显示名称
+     */
+    private String getSpawnerDisplayName(SpawnerType type, EntityType entityType) {
+        // 检查是否启用自定义名称
+        if (!plugin.getConfig().getBoolean("spawner_names.enabled", true)) {
+            return "§6" + type.name() + " 刷怪笼";
+        }
+        
+        // 尝试获取自定义名称
+        String key = type.name() + "_" + entityType.name();
+        String customName = plugin.getConfig().getString("spawner_names.custom_names." + key);
+        
+        if (customName != null && !customName.isEmpty()) {
+            return customName;
+        }
+        
+        // 使用默认格式
+        String defaultFormat = plugin.getConfig().getString("spawner_names.default_format", "§6%type% 刷怪笼");
+        return defaultFormat
+                .replace("%type%", type.name())
+                .replace("%entity%", getEntityDisplayName(entityType));
+    }
+    
+    /**
+     * 获取实体的显示名称（中文）
+     * @param entityType 实体类型
+     * @return 显示名称
+     */
+    private String getEntityDisplayName(EntityType entityType) {
+        switch (entityType) {
+            case ZOMBIE: return "僵尸";
+            case SKELETON: return "骷髅";
+            case CREEPER: return "苦力怕";
+            case SPIDER: return "蜘蛛";
+            case ENDERMAN: return "末影人";
+            case COW: return "奶牛";
+            case PIG: return "猪";
+            case SHEEP: return "羊";
+            case CHICKEN: return "鸡";
+            case RABBIT: return "兔子";
+            case BLAZE: return "烈焰人";
+            case GHAST: return "恶魂";
+            case IRON_GOLEM: return "铁傀儡";
+            case WOLF: return "狼";
+            default: return entityType.name();
+        }
     }
     
     private boolean handleInfo(CommandSender sender) {

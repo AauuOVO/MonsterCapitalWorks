@@ -6,7 +6,7 @@
 
     <groupId>org.Aauu</groupId>
     <artifactId>Aauu_Mob_Capital</artifactId>
-    <version>1.0</version>
+    <version>2.0</version>
     <packaging>jar</packaging>
 
     <name>Aauu_Mob_Capital</name>
@@ -38,6 +38,33 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <minimizeJar>true</minimizeJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>org.xerial:sqlite-jdbc</artifact>
+                                    <includes>
+                                        <!-- 只包含必要的类文件 -->
+                                        <include>**/*.class</include>
+                                        <!-- 只包含Windows和Linux的原生库，移除macOS和其他平台 -->
+                                        <include>org/sqlite/native/Windows/x86_64/**</include>
+                                        <include>org/sqlite/native/Linux/x86_64/**</include>
+                                        <include>org/sqlite/native/Linux/aarch64/**</include>
+                                    </includes>
+                                </filter>
+                                <!-- 移除不必要的元数据文件 -->
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/MANIFEST.MF</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

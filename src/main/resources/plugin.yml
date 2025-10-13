@@ -92,6 +92,7 @@ permissions:
       amc.admin.remove: true
       amc.admin.break: true
       amc.admin.use: true
+      amc.admin.pickup: true
       amc.admin.list.others: true
   
   amc.admin.reload:
@@ -112,6 +113,10 @@ permissions:
   
   amc.admin.use:
     description: 使用他人刷怪笼权限
+    default: op
+  
+  amc.admin.pickup:
+    description: 拾取任何玩家的刷怪笼权限
     default: op
   
   amc.admin.list.others:

@@ -52,7 +52,14 @@ public class ConfigManager {
             guiFolder.mkdirs();
         }
         
-        String[] guiFiles = {"main_menu.yml", "upgrade_menu.yml", "entity_menu.yml", "buy_limit_menu.yml", "precise_pos_menu.yml"};
+        String[] guiFiles = {
+            "main_menu_normal.yml", 
+            "main_menu_premium.yml", 
+            "upgrade_menu.yml", 
+            "entity_menu.yml", 
+            "buy_limit_menu.yml", 
+            "precise_pos_menu.yml"
+        };
         
         for (String fileName : guiFiles) {
             File file = new File(guiFolder, fileName);
@@ -84,10 +91,6 @@ public class ConfigManager {
     
     public FileConfiguration getMessages() {
         return getConfig("messages");
-    }
-    
-    public FileConfiguration getGuis() {
-        return getConfig("guis");
     }
     
     public FileConfiguration getGuiConfig(String guiName) {

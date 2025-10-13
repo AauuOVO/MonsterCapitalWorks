@@ -60,11 +60,11 @@ entities:
     price: 100000
     enabled: false
   
-  # 条件生成的生物
+  # 条件生成的生物示例
   BLAZE:
     price: 4000
-    spawn_condition: "world_name == 'world_nether'"
+    spawn_condition: "%world_name% == world_nether"  # 只能在下界生成
   
   GHAST:
     price: 5000
-    spawn_condition: "world_name == 'world_nether'"
+    spawn_condition: "%world_name% == world_nether"  # 只能在下界生成

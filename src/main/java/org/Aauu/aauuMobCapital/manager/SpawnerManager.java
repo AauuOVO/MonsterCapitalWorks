@@ -264,17 +264,29 @@ public class SpawnerManager {
         playerSpawners.computeIfAbsent(owner, k -> new HashSet<>()).add(location);
         plugin.getDataManager().saveSpawner(spawner);
         
-        // 禁用原版刷怪笼生成
+        // 彻底禁用原版刷怪笼生成
+        disableVanillaSpawner(location, entityType);
+        
+        return spawner;
+    }
+    
+    /**
+     * 彻底禁用原版刷怪笼生成
+     */
+    private void disableVanillaSpawner(Location location, EntityType entityType) {
         Block block = location.getBlock();
         if (block.getType() == Material.SPAWNER) {
             CreatureSpawner cs = (CreatureSpawner) block.getState();
             cs.setSpawnedType(entityType);
-            cs.setDelay(-1); // 设置为-1禁用原版生成
-            cs.setMaxNearbyEntities(0); // 设置为0禁用原版生成
-            cs.update();
+            cs.setMaxSpawnDelay(Integer.MAX_VALUE); // 先设置最大延迟
+            cs.setMinSpawnDelay(Integer.MAX_VALUE); // 再设置最小延迟
+            cs.setDelay(Integer.MAX_VALUE); // 设置当前延迟为最大值
+            cs.setSpawnCount(0); // 生成数量设为0
+            cs.setMaxNearbyEntities(0); // 最大附近实体设为0
+            cs.setRequiredPlayerRange(0); // 激活范围设为0
+            cs.setSpawnRange(0); // 生成范围设为0
+            cs.update(true, false); // 强制更新
         }
-        
-        return spawner;
     }
     
     /**
@@ -338,14 +350,8 @@ public class SpawnerManager {
         if (spawner != null) {
             spawner.setEntityType(entityType);
             
-            Block block = location.getBlock();
-            if (block.getType() == Material.SPAWNER) {
-                CreatureSpawner cs = (CreatureSpawner) block.getState();
-                cs.setSpawnedType(entityType);
-                cs.setDelay(-1); // 禁用原版生成
-                cs.setMaxNearbyEntities(0); // 禁用原版生成
-                cs.update();
-            }
+            // 彻底禁用原版刷怪笼生成
+            disableVanillaSpawner(location, entityType);
             
             plugin.getDataManager().saveSpawner(spawner);
         }

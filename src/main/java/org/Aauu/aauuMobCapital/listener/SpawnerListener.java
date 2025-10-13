@@ -122,10 +122,6 @@ public class SpawnerListener implements Listener {
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onSpawnerInteract(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
-        
         Block block = event.getClickedBlock();
         if (block == null || block.getType() != Material.SPAWNER) {
             return;
@@ -139,6 +135,33 @@ public class SpawnerListener implements Listener {
         }
         
         Player player = event.getPlayer();
+        
+        // 处理 Shift+左键 掉落刷怪笼
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK && player.isSneaking()) {
+            event.setCancelled(true);
+            
+            // 检查是否是所有者或有管理员权限
+            if (!spawner.getOwner().equals(player.getUniqueId()) && !player.hasPermission("amc.admin.pickup")) {
+                player.sendMessage(plugin.getConfigManager().getMessage("error.not_your_spawner"));
+                return;
+            }
+            
+            // 移除刷怪笼并掉落物品
+            plugin.getSpawnerManager().removeSpawner(loc);
+            block.setType(Material.AIR);
+            
+            // 创建带升级信息的刷怪笼物品
+            ItemStack drop = createSpawnerItemWithUpgrades(spawner);
+            loc.getWorld().dropItemNaturally(loc, drop);
+            
+            player.sendMessage(plugin.getConfigManager().getMessage("success.spawner_dropped"));
+            return;
+        }
+        
+        // 处理右键打开GUI
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
         
         if (!spawner.getOwner().equals(player.getUniqueId()) && !player.hasPermission("amc.admin.use")) {
             event.setCancelled(true);
@@ -163,13 +186,17 @@ public class SpawnerListener implements Listener {
             return;
         }
         
+        // 取消所有点击事件，防止物品被拿走
         event.setCancelled(true);
         
         int slot = event.getRawSlot();
+        
+        // 如果点击的是玩家背包区域，直接返回不处理
         if (slot < 0 || slot >= event.getInventory().getSize()) {
             return;
         }
         
+        // 处理实体选择菜单
         if ("entity_menu".equals(guiName)) {
             ItemStack clicked = event.getCurrentItem();
             if (clicked != null && clicked.getType().name().endsWith("_SPAWN_EGG")) {
@@ -178,6 +205,7 @@ public class SpawnerListener implements Listener {
             }
         }
         
+        // 处理其他GUI点击
         plugin.getGUIManager().handleClick(player, slot, guiName, event.isRightClick(), event.isShiftClick());
     }
     
@@ -271,7 +299,9 @@ public class SpawnerListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         
         if (meta != null) {
-            meta.setDisplayName("§6" + spawner.getType().name() + " 刷怪笼");
+            // 使用自定义名称
+            String displayName = getSpawnerDisplayName(spawner.getType(), spawner.getEntityType());
+            meta.setDisplayName(displayName);
             
             // 创建lore，包含升级信息
             java.util.ArrayList<String> lore = new java.util.ArrayList<>();
@@ -296,6 +326,58 @@ public class SpawnerListener implements Listener {
         }
         
         return item;
+    }
+    
+    /**
+     * 获取刷怪笼的显示名称
+     * @param type 刷怪笼类型
+     * @param entityType 实体类型
+     * @return 显示名称
+     */
+    private String getSpawnerDisplayName(SpawnerType type, EntityType entityType) {
+        // 检查是否启用自定义名称
+        if (!plugin.getConfig().getBoolean("spawner_names.enabled", true)) {
+            return "§6" + type.name() + " 刷怪笼";
+        }
+        
+        // 尝试获取自定义名称
+        String key = type.name() + "_" + entityType.name();
+        String customName = plugin.getConfig().getString("spawner_names.custom_names." + key);
+        
+        if (customName != null && !customName.isEmpty()) {
+            return customName;
+        }
+        
+        // 使用默认格式
+        String defaultFormat = plugin.getConfig().getString("spawner_names.default_format", "§6%type% 刷怪笼");
+        return defaultFormat
+                .replace("%type%", type.name())
+                .replace("%entity%", getEntityDisplayName(entityType));
+    }
+    
+    /**
+     * 获取实体的显示名称（中文）
+     * @param entityType 实体类型
+     * @return 显示名称
+     */
+    private String getEntityDisplayName(EntityType entityType) {
+        switch (entityType) {
+            case ZOMBIE: return "僵尸";
+            case SKELETON: return "骷髅";
+            case CREEPER: return "苦力怕";
+            case SPIDER: return "蜘蛛";
+            case ENDERMAN: return "末影人";
+            case COW: return "奶牛";
+            case PIG: return "猪";
+            case SHEEP: return "羊";
+            case CHICKEN: return "鸡";
+            case RABBIT: return "兔子";
+            case BLAZE: return "烈焰人";
+            case GHAST: return "恶魂";
+            case IRON_GOLEM: return "铁傀儡";
+            case WOLF: return "狼";
+            default: return entityType.name();
+        }
     }
     
     private Map<String, Integer> getUpgradesFromItem(ItemStack item) {

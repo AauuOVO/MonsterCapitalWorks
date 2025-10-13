@@ -29,7 +29,6 @@ public final class AauuMobCapital extends JavaPlugin {
         saveResource("entities_premium.yml", false);
         saveResource("normal_upgrades.yml", false);
         saveResource("premium_upgrades.yml", false);
-        saveResource("guis.yml", false);
         
         initializeManagers();
         registerCommands();
