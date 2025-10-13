@@ -1,459 +1,258 @@
-# 🎮 MonsterCapitalWorks (MCW)
+# MonsterCapitalWorks
 
-[![Minecraft](https://img.shields.io/badge/Minecraft-1.21.4-brightgreen.svg)](https://www.minecraft.net/)
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<div align="center">
 
-一个功能强大、高度可配置的 Minecraft 刷怪笼管理插件，支持经济系统、升级系统、精确生成位置等多种特性。
+![Version](https://img.shields.io/badge/version-2.1-blue.svg)
+![Minecraft](https://img.shields.io/badge/minecraft-1.21-green.svg)
+![License](https://img.shields.io/badge/license-MIT-yellow.svg)
 
-## ✨ 核心特性
+**一个功能强大的 Minecraft 刷怪笼管理系统插件**
 
-### 🏪 双刷怪笼系统
-- **普通刷怪笼 (Normal)** - 基础功能，适合新手玩家
-- **付费刷怪笼 (Premium)** - 高级功能，提供更多特性和更高效率
+[特性](#-特性) • [安装](#-安装) • [命令](#-命令) • [权限](#-权限) • [配置](#-配置)
 
-### 💰 经济系统集成
-- 完整的 Vault 经济系统支持
-- 可配置的实体解锁价格
-- 灵活的购买限制系统
-- 支持购买额外刷怪笼数量限制
-- 两种价格模式：固定价格 / 倍率递增
+</div>
 
-### 🔧 强大的升级系统
-- **生成延迟升级** - 减少刷怪间隔时间，提高效率
-- **生成数量升级** - 增加每次生成的实体数量
-- **最大附近实体升级** - 提高周围实体上限
-- **激活范围升级** - 扩大刷怪笼激活距离
-- **存储容量升级** - 增加实体存储上限
-- **升级依赖系统** - 支持升级前置条件
+---
 
-### 📦 智能存储系统
-- 自动存储生成的实体
-- 可配置的最大存储容量
-- 一键释放所有存储的实体
-- 支持存储功能开关
-- 离线也能累积存储
+## 📖 简介
 
-### 🎯 精确生成位置
-- **随机模式** - 在刷怪笼周围随机生成
-- **精确模式** - 在指定坐标精确生成
-- 可视化坐标调整界面
-- 支持 X、Y、Z 三轴独立调整（0.1 方块精度）
-- 实时预览生成位置
+MonsterCapitalWorks (MCW) 是一个为 Minecraft 服务器设计的高级刷怪笼管理插件，提供完整的刷怪笼控制、升级系统、经济集成和权限管理功能。
 
-### 🎨 现代化 GUI 界面
-- 美观的图形化操作界面
-- 直观的实体选择菜单
-- 便捷的升级管理界面
-- 精确位置设置界面
-- 购买限制管理界面
-- 完全可自定义的 GUI 布局
+## ✨ 特性
 
-### 🎒 便捷拾取系统
-- **Shift+左键** 快速拾取刷怪笼
-- 自动保留所有升级信息
-- 保留精确生成位置设置
-- 保留存储的实体数量
-- 所有权保护，防止误操作
+### 🎯 核心功能
+- **双类型系统** - 支持普通(NORMAL)和付费(PREMIUM)两种刷怪笼类型
+- **图形界面** - 完整的 GUI 管理系统，操作简单直观
+- **升级系统** - 5种升级路径：速度、数量、范围、最大附近实体、存储容量
+- **精确生成** - 支持精确位置生成和随机生成两种模式
+- **离线存储** - 玩家离线时自动存储生成，上线后释放
 
-### 🔐 完善的权限系统
-- 细粒度的权限控制
-- 支持普通和付费刷怪笼分离权限
-- 管理员权限支持
-- 绕过限制权限
-- 支持权限组数量限制
+### 💰 经济系统
+- **Vault 集成** - 完整的经济系统支持
+- **实体解锁** - 付费解锁特定生物类型
+- **升级购买** - 使用游戏货币升级刷怪笼属性
+- **限制购买** - 购买额外的刷怪笼放置位置
 
-### 💾 数据持久化
-- SQLite 数据库存储
-- 完整的刷怪笼状态保存
-- 玩家数据自动保存
-- 异步数据库操作，不影响性能
-- 服务器重启数据不丢失
+### 🔐 权限系统
+- **细粒度控制** - 详细的权限节点配置
+- **权限组奖励** - 通过权限组获得额外刷怪笼位置
+- **绕过权限** - 管理员可绕过各种限制
+- **性能优化** - 使用二分查找优化权限检查
 
-### 🌍 多语言支持
-- 完全可自定义的消息系统
-- 支持颜色代码和格式化
-- 支持 PlaceholderAPI 变量
+### 🎨 自定义功能
+- **RGB 颜色** - 支持 `{#RRGGBB}` 格式的 RGB 颜色代码
+- **自定义名称** - 刷怪笼和刷怪蛋的自定义显示名称
+- **PlaceholderAPI** - 完整的 PAPI 占位符支持
+- **条件系统** - 基于 Y 坐标、生物群系等的生成条件
 
-## 📋 系统要求
+## 📦 依赖
 
-- **Minecraft 版本**: 1.21.4+
-- **服务端**: Paper
-- **Java 版本**: 21+
-- **必需依赖**: 
-  - [Vault](https://www.spigotmc.org/resources/vault.34315/)（经济系统）
-  - 任意经济插件（如 [EssentialsX](https://essentialsx.net/)）
-- **可选依赖**:
-  - [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)（变量支持）
+### 必需
+- **Vault** - 经济系统支持
 
-## 🚀 快速开始
+### 可选
+- **PlaceholderAPI** - 占位符支持
 
-### 安装步骤
+## 🚀 安装
 
-1. **安装依赖**
-   ```
-   确保已安装：
-   - Vault 插件
-   - 经济插件（如 EssentialsX）
-   ```
+1. 下载最新版本的插件 jar 文件
+2. 将文件放入服务器的 `plugins` 文件夹
+3. 确保已安装 Vault 插件
+4. 重启服务器
+5. 配置文件将自动生成在 `plugins/MonsterCapitalWorks/` 目录
 
-2. **部署插件**
-   ```
-   将 MonsterCapitalWorks-2.0.jar 放入服务器的 plugins 文件夹
-   ```
+## 📝 命令
 
-3. **启动服务器**
-   - 首次启动会自动生成配置文件
-   - 配置文件位于 `plugins/MonsterCapitalWorks/`
-
-4. **配置插件**（可选）
-   - 编辑配置文件以自定义功能
-   - 调整实体价格、升级配置等
-
-5. **重载配置**
-   ```
-   /mcw reload
-   ```
-
-### 基础使用
-
-#### 🎁 获取刷怪笼
+### 基础命令
 ```
-/mcw give <玩家> <类型> [实体]
-```
-- **类型**: `normal`（普通）或 `premium`（付费）
-- **实体**: 可选，默认为 ZOMBIE
-- **示例**: `/mcw give Steve normal COW`
-
-#### 🎮 管理刷怪笼
-1. **右键点击**刷怪笼打开管理界面
-2. 在界面中可以：
-   - 切换实体类型
-   - 升级各项属性
-   - 设置精确生成位置
-   - 管理存储系统
-   - 购买额外限制
-
-3. **Shift+左键**快速拾取刷怪笼
-   - 保留所有升级
-   - 保留精确位置设置
-   - 保留存储的实体
-
-#### 📊 查看信息
-```
-/mcw info        # 看向刷怪笼并执行，查看详细信息
-/mcw list        # 查看自己的刷怪笼列表
-/mcw list <玩家> # 查看其他玩家的刷怪笼（需要权限）
+/mcw help                              - 显示帮助信息
+/mcw reload                            - 重载配置文件
+/mcw give <玩家> <类型> [实体]         - 给予刷怪笼
+/mcw info                              - 查看刷怪笼信息
+/mcw list [玩家]                       - 列出刷怪笼详情
+/mcw remove                            - 移除刷怪笼
 ```
 
-## 📖 命令与权限
+### 管理员命令
+```
+/mcw limit set <玩家> <类型> <数量>    - 设置玩家额外限制
+/mcw limit add <玩家> <类型> <数量>    - 增加玩家额外限制
+/mcw limit remove <玩家> <类型> <数量> - 减少玩家额外限制
+```
 
-### 命令列表
+## 🔑 权限
 
-| 命令 | 描述 | 权限 |
-|------|------|------|
-| `/mcw` | 显示帮助信息 | 无 |
-| `/mcw help` | 显示帮助信息 | 无 |
-| `/mcw reload` | 重载配置文件 | `mcw.admin.reload` |
-| `/mcw give <玩家> <类型> [实体]` | 给予玩家刷怪笼 | `mcw.admin.give` |
-| `/mcw info` | 查看刷怪笼详细信息 | `mcw.admin` |
-| `/mcw list [玩家]` | 列出刷怪笼 | `mcw.admin` |
-| `/mcw remove` | 移除刷怪笼（不掉落） | `mcw.admin.remove` |
-
-**💡 提示**: 推荐使用 **Shift+左键** 拾取刷怪笼，而不是 `/mcw remove` 命令！
-
-### 权限节点
-
-#### 基础权限
-| 权限 | 描述 | 默认 |
-|------|------|------|
-| `mcw.*` | 所有权限 | op |
+### 基础权限
+| 权限节点 | 说明 | 默认值 |
+|---------|------|--------|
 | `mcw.create.normal` | 创建普通刷怪笼 | true |
 | `mcw.create.premium` | 创建付费刷怪笼 | false |
 | `mcw.place.normal` | 放置普通刷怪笼 | true |
 | `mcw.place.premium` | 放置付费刷怪笼 | false |
 
-#### GUI 权限
-| 权限 | 描述 | 默认 |
-|------|------|------|
+### GUI 权限
+| 权限节点 | 说明 | 默认值 |
+|---------|------|--------|
 | `mcw.gui.normal` | 打开普通刷怪笼GUI | true |
 | `mcw.gui.premium` | 打开付费刷怪笼GUI | false |
 | `mcw.gui.purchase` | 打开购买界面 | true |
 
-#### 管理员权限
-| 权限 | 描述 | 默认 |
-|------|------|------|
-| `mcw.admin` | 所有管理员权限 | op |
-| `mcw.admin.reload` | 重载配置 | op |
-| `mcw.admin.give` | 给予刷怪笼 | op |
-| `mcw.admin.remove` | 移除刷怪笼 | op |
-| `mcw.admin.break` | 破坏他人刷怪笼 | op |
-| `mcw.admin.use` | 使用他人刷怪笼 | op |
-| `mcw.admin.pickup` | 拾取任何玩家的刷怪笼 | op |
-| `mcw.admin.list.others` | 查看其他玩家的刷怪笼 | op |
-
-#### 绕过权限
-| 权限 | 描述 | 默认 |
-|------|------|------|
-| `mcw.bypass.conditions` | 绕过生成条件 | op |
+### 绕过权限
+| 权限节点 | 说明 | 默认值 |
+|---------|------|--------|
+| `mcw.bypass.conditions` | 绕过生物生成条件 | op |
 | `mcw.bypass.disabled` | 绕过生物禁用限制 | op |
 | `mcw.bypass.limits` | 绕过所有数量限制 | op |
 
-#### 特殊权限
-| 权限 | 描述 | 默认 |
-|------|------|------|
-| `mcw.spawnmode.precise` | 使用精确生成模式 | true |
+### 特殊权限
+| 权限节点 | 说明 |
+|---------|------|
+| `mcw.spawnmode.precise` | 使用精确生成模式 |
+| `mcw.limit.normal.extra.<数量>` | 普通刷怪笼额外位置 |
+| `mcw.limit.premium.extra.<数量>` | 付费刷怪笼额外位置 |
 
-## ⚙️ 配置说明
+## ⚙️ 配置
 
-### 主配置文件 (config.yml)
+### 主要配置文件
 
+- **config.yml** - 主配置文件
+  - 数据库设置
+  - 经济系统配置
+  - 刷怪机制参数
+  - 自定义名称配置
+  - 性能优化选项
+
+- **limits.yml** - 限制配置
+  - 基础限制设置
+  - 购买系统配置
+  - 价格模式设置
+
+- **messages.yml** - 消息配置
+  - 所有插件消息的自定义
+  - 支持列表格式消息
+  - RGB 颜色支持
+
+### 实体配置
+- `entities_normal.yml` - 普通刷怪笼可用实体
+- `entities_premium.yml` - 付费刷怪笼可用实体
+
+### 升级配置
+- `normal_upgrades.yml` - 普通刷怪笼升级路径
+- `premium_upgrades.yml` - 付费刷怪笼升级路径
+
+### GUI 配置
+- `gui/main_menu_normal.yml` - 普通刷怪笼主菜单
+- `gui/main_menu_premium.yml` - 付费刷怪笼主菜单
+- `gui/upgrade_menu.yml` - 升级菜单
+- `gui/entity_menu.yml` - 实体选择菜单
+- `gui/buy_limit_menu.yml` - 购买限制菜单
+- `gui/precise_pos_menu.yml` - 精确位置设置菜单
+
+## 🎮 使用方法
+
+### 放置刷怪笼
+1. 使用 `/mcw give` 命令获取刷怪笼
+2. 右键放置刷怪笼
+3. 右键点击刷怪笼打开 GUI
+
+### 管理刷怪笼
+- **右键点击** - 打开 GUI 管理界面
+- **Shift+左键** - 拾取刷怪笼（保留升级）
+
+### 升级刷怪笼
+1. 打开刷怪笼 GUI
+2. 点击"升级"按钮
+3. 选择要升级的属性
+4. 确认购买
+
+## 🔧 性能优化
+
+### 已实现的优化
+- ✅ 权限检查使用二分查找算法（从 O(n) 优化到 O(log n)）
+- ✅ 异步数据库操作
+- ✅ 刷怪笼处理批量化
+- ✅ 配置文件缓存
+- ✅ 事件监听器优化
+
+### 配置建议
 ```yaml
-# 数据库设置
-database:
-  type: sqlite
-  file: data/mcw.db
-
-# 经济设置
-economy:
-  enabled: true
-
-# PlaceholderAPI
-placeholderapi:
-  enabled: true
-
-# 刷怪笼数量限制
-limits:
-  normal:
-    base: 5                    # 基础限制
-    purchase:
-      enabled: true            # 是否允许购买
-      base_price: 1000.0       # 基础价格
-      price_mode: "multiplier" # 价格模式
-      price_multiplier: 1.2    # 价格倍率
-      max_purchasable: 50      # 最多可购买数量
-  
-  premium:
-    base: 2
-    purchase:
-      enabled: true
-      base_price: 5000.0
-      price_mode: "multiplier"
-      price_multiplier: 1.5
-      max_purchasable: 20
-
-# 刷怪机制设置
-spawning:
-  default_spawn_count: 1
-  default_spawn_delay: 100
-  default_max_nearby_entities: 6
-  default_activation_range: 16
-  
-  storage:
-    enabled: true
-    default_max_storage: 100
-    default_storage_time: 3600
-    release_interval: 20
-
-# 性能优化
 performance:
-  spawner_tick_interval: 20
-  max_spawners_per_tick: 10
-  async_processing: true
-
-# 调试模式
-debug: false
+  spawner_tick_interval: 20      # 刷怪笼处理间隔
+  max_spawners_per_tick: 10      # 每tick最大处理数量
+  async_processing: true          # 启用异步处理
 ```
 
-### 实体配置 (entities_normal.yml / entities_premium.yml)
+## 📊 占位符
 
-```yaml
-entities:
-  ZOMBIE:
-    price: 0                   # 免费解锁
-    require_unlock: false
-    display_name: "§2僵尸"
-    
-  COW:
-    price: 2000                # 需要 2000 金币解锁
-    require_unlock: true
-    display_name: "§e牛"
-    
-  BLAZE:
-    price: 10000
-    require_unlock: true
-    display_name: "§6烈焰人"
-    conditions:
-      - "%world_name% == world_nether"   # PAPI条件：只能在下界生成怪物
-    spawn_conditions:
-      min_y: 0                           # Y坐标条件：刷怪笼必须放置在Y >= 0
-      max_y: 128                         # Y坐标条件：刷怪笼必须放置在Y <= 128
-```
+### 基础信息
+- `%amc_type%` - 刷怪笼类型
+- `%amc_entity%` - 当前实体类型
+- `%amc_location%` - 刷怪笼位置
+- `%amc_active%` - 激活状态
+- `%amc_status%` - 开关状态
 
-### 升级配置 (normal_upgrades.yml / premium_upgrades.yml)
+### 升级信息
+- `%amc_speed_level%` - 速度升级等级
+- `%amc_count_level%` - 数量升级等级
+- `%amc_range_level%` - 范围升级等级
+- `%amc_storage_level%` - 存储升级等级
 
-```yaml
-upgrades:
-  speed:
-    name: "&b生成速度"
-    description: "&7减少刷怪间隔时间"
-    levels:                    # 最大等级由配置的levels数量自动决定
-      1:
-        cost: 1000
-        value: 90              # 延迟降低到 90 tick
-      2:
-        cost: 1500
-        value: 80
-      3:
-        cost: 2000
-        value: 70
-  
-  count:
-    name: "&a生成数量"
-    description: "&7增加每波生成的实体数量"
-    levels:                    # 配置了5个等级，最大等级就是5
-      1:
-        cost: 2000
-        value: 2
-      2:
-        cost: 4000
-        value: 3
-        required_upgrades:     # 需要先升级其他项
-          speed: 3             # 需要速度升级到3级
-      3:
-        cost: 6000
-        value: 4
-      4:
-        cost: 8000
-        value: 5
-      5:
-        cost: 12000
-        value: 6
-```
+### 玩家数据
+- `%amc_placed%` - 已放置数量
+- `%amc_limit%` - 总限制
+- `%amc_purchased%` - 已购买额外位置
 
-**💡 升级系统特性：**
-- 最大等级由配置文件中的 `levels` 数量自动决定，无需手动设置 `max_level`
-- 达到最大等级后，系统会自动提示"该升级已达到最大等级！无法继续升级。"
-- 支持升级前置条件，可以设置某些升级需要其他升级达到指定等级
-- 管理员可以随时在配置文件中添加或删除等级，插件会自动适应
+## 🐛 故障排除
 
-### GUI 配置 (gui/*.yml)
+### 常见问题
 
-所有 GUI 界面都可以完全自定义，包括：
-- 界面标题
-- 界面大小
-- 物品位置
-- 物品材质
-- 物品名称和描述
-- 点击动作
+**Q: 刷怪笼不生成怪物？**
+- 检查刷怪笼是否激活
+- 确认玩家在激活范围内
+- 验证是否满足生成条件
+- 检查附近实体数量
 
-详细配置请参考 `src/main/resources/gui/` 目录下的示例文件。
+**Q: 无法放置刷怪笼？**
+- 确认有放置权限
+- 检查是否达到数量限制
+- 验证是否满足放置条件
 
-## 🔨 编译项目
-
-### 前置要求
-- JDK 21 或更高版本
-- Maven 3.6+
-- Git
-
-### 编译步骤
-
-```bash
-# 1. 克隆仓库
-git clone https://github.com/yourusername/MonsterCapitalWorks.git
-cd MonsterCapitalWorks
-
-# 2. 使用 Maven 编译
-mvn clean package
-
-# 3. 编译后的文件位于
-# target/MonsterCapitalWorks-2.0.jar
-```
-
-### 开发环境设置
-
-推荐使用 IntelliJ IDEA：
-
-1. 打开 IntelliJ IDEA
-2. File → Open → 选择项目目录
-3. 等待 Maven 自动导入依赖
-4. 使用 Maven 工具窗口执行 `package` 任务
-
-## 📊 PlaceholderAPI 变量
-
-安装 PlaceholderAPI 后可使用以下变量：
-
-| 变量 | 描述 |
-|------|------|
-| `%mcw_normal_count%` | 玩家的普通刷怪笼数量 |
-| `%mcw_premium_count%` | 玩家的付费刷怪笼数量 |
-| `%mcw_normal_limit%` | 玩家的普通刷怪笼限制 |
-| `%mcw_premium_limit%` | 玩家的付费刷怪笼限制 |
-| `%mcw_normal_purchased%` | 玩家购买的普通限制数量 |
-| `%mcw_premium_purchased%` | 玩家购买的付费限制数量 |
-
-## 🐛 问题反馈
-
-遇到问题或有建议？
-
-1. 创建 [Issue](../../issues/new)
-
-**提交 Issue 时请包含：**
-- 服务器版本（如 Paper 1.21.4）
-- 插件版本
-- 完整的错误日志
-- 详细的复现步骤
-- 相关配置文件
+**Q: 升级失败？**
+- 确认有足够的金钱
+- 检查前置升级要求
+- 验证是否已达最大等级
 
 ## 🤝 贡献
 
-欢迎贡献代码！
-
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
-
-## 📝 更新日志
-
-### v2.0 (2025-10-14)
-- 🎉 完全重写插件架构
-- ✨ 新增精确生成位置功能
-- ✨ 新增实体存储系统
-- ✨ 新增购买限制功能
-- 🎨 全新的 GUI 界面设计
-- 🔧 升级系统优化
-- 🐛 修复多个已知问题
-- ⚡ 性能优化
-- 🎉 首次发布
-- ✨ 基础刷怪笼功能
-- 💰 经济系统集成
-- 🔧 升级系统
+欢迎提交 Issue 和 Pull Request！
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
-## 👥 作者与贡献者
+## 📞 支持
 
-**主要开发者**
-- Aauu - [GitHub](https://github.com/AauuOVO/)
+如有问题或需要帮助：
+1. 查看本文档
+2. 检查配置文件
+3. 启用调试模式查看日志
+4. 提交 Issue
 
-**特别感谢**
-- 所有提供反馈和建议的玩家
-- 开源社区的支持
+## 🔄 更新日志
 
-## 🔗 相关链接
+### v2.1
+- ✨ 优化权限检查性能（二分查找算法）
+- ✨ 改进消息系统（支持列表格式）
+- 🐛 修复生物群系获取方法
+- 🐛 修复编译错误
+- 📝 完善文档
 
-- [minebbs](https://www.minebbs.com/resources/monstercapitalworks-mcw.13777/)
 ---
 
 <div align="center">
 
-⭐ **如果这个项目对您有帮助，请给个 Star 支持一下！** ⭐
+**感谢使用 MonsterCapitalWorks！**
 
 Made with ❤️ by Aauu
 
 </div>
-
