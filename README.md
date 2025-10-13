@@ -78,7 +78,7 @@
 ## 📋 系统要求
 
 - **Minecraft 版本**: 1.21.4+
-- **服务端**: Paper / Purpur（推荐）/ Spigot
+- **服务端**: Paper
 - **Java 版本**: 21+
 - **必需依赖**: 
   - [Vault](https://www.spigotmc.org/resources/vault.34315/)（经济系统）
@@ -91,8 +91,7 @@
 ### 安装步骤
 
 1. **下载插件**
-   - 从 [Releases](../../releases) 页面下载最新版本
-   - 或者自行编译（见下方编译说明）
+   - 自行编译（见下方编译说明）
 
 2. **安装依赖**
    ```
@@ -183,7 +182,6 @@
 | `mcw.gui.normal` | 打开普通刷怪笼GUI | true |
 | `mcw.gui.premium` | 打开付费刷怪笼GUI | false |
 | `mcw.gui.purchase` | 打开购买界面 | true |
-| `mcw.gui.admin` | 打开管理员GUI | op |
 
 #### 管理员权限
 | 权限 | 描述 | 默认 |
@@ -221,6 +219,10 @@ database:
 
 # 经济设置
 economy:
+  enabled: true
+
+# PlaceholderAPI
+placeholderapi:
   enabled: true
 
 # 刷怪笼数量限制
@@ -262,10 +264,6 @@ performance:
   max_spawners_per_tick: 10
   async_processing: true
 
-# PlaceholderAPI
-placeholderapi:
-  enabled: true
-
 # 调试模式
 debug: false
 ```
@@ -288,39 +286,59 @@ entities:
     price: 10000
     require_unlock: true
     display_name: "§6烈焰人"
+    conditions:
+      - "%world_name% == world_nether"   # PAPI条件：只能在下界生成怪物
     spawn_conditions:
-      - "world:nether"         # 只能在下界生成
+      min_y: 0                           # Y坐标条件：刷怪笼必须放置在Y >= 0
+      max_y: 128                         # Y坐标条件：刷怪笼必须放置在Y <= 128
 ```
 
 ### 升级配置 (normal_upgrades.yml / premium_upgrades.yml)
 
 ```yaml
 upgrades:
-  spawn_delay:
-    name: "生成延迟"
-    description: "减少刷怪间隔时间"
-    max_level: 10
-    levels:
+  speed:
+    name: "&b生成速度"
+    description: "&7减少刷怪间隔时间"
+    levels:                    # 最大等级由配置的levels数量自动决定
       1:
-        cost: 5000
-        value: 80              # 延迟降低到 80 tick
+        cost: 1000
+        value: 90              # 延迟降低到 90 tick
       2:
-        cost: 10000
-        value: 60
-        required_upgrades:     # 需要先升级其他项
-          spawn_count: 1
-      # ... 更多等级
+        cost: 1500
+        value: 80
+      3:
+        cost: 2000
+        value: 70
   
-  spawn_count:
-    name: "生成数量"
-    description: "增加每次生成的实体数量"
-    max_level: 5
-    levels:
+  count:
+    name: "&a生成数量"
+    description: "&7增加每波生成的实体数量"
+    levels:                    # 配置了5个等级，最大等级就是5
       1:
-        cost: 8000
+        cost: 2000
         value: 2
-      # ... 更多等级
+      2:
+        cost: 4000
+        value: 3
+        required_upgrades:     # 需要先升级其他项
+          speed: 3             # 需要速度升级到3级
+      3:
+        cost: 6000
+        value: 4
+      4:
+        cost: 8000
+        value: 5
+      5:
+        cost: 12000
+        value: 6
 ```
+
+**💡 升级系统特性：**
+- 最大等级由配置文件中的 `levels` 数量自动决定，无需手动设置 `max_level`
+- 达到最大等级后，系统会自动提示"该升级已达到最大等级！无法继续升级。"
+- 支持升级前置条件，可以设置某些升级需要其他升级达到指定等级
+- 管理员可以随时在配置文件中添加或删除等级，插件会自动适应
 
 ### GUI 配置 (gui/*.yml)
 
@@ -381,9 +399,7 @@ mvn clean package
 
 遇到问题或有建议？
 
-1. 查看 [Wiki](../../wiki)（即将推出）
-2. 创建 [Issue](../../issues/new)
-3. 加入我们的 Discord（即将推出）
+1. 创建 [Issue](../../issues/new)
 
 **提交 Issue 时请包含：**
 - 服务器版本（如 Paper 1.21.4）
@@ -404,7 +420,7 @@ mvn clean package
 
 ## 📝 更新日志
 
-### v2.0 (2025-01-13)
+### v2.0 (2025-10-13)
 - 🎉 完全重写插件架构
 - ✨ 新增精确生成位置功能
 - ✨ 新增实体存储系统
@@ -414,7 +430,7 @@ mvn clean package
 - 🐛 修复多个已知问题
 - ⚡ 性能优化
 
-### v1.0 (2024-XX-XX)
+### v1.0 (2025-10-11)
 - 🎉 首次发布
 - ✨ 基础刷怪笼功能
 - 💰 经济系统集成
@@ -436,7 +452,6 @@ mvn clean package
 ## 🔗 相关链接
 
 - [SpigotMC](https://www.spigotmc.org/)（即将发布）
-- [Modrinth](https://modrinth.com/)（即将发布）
 
 ---
 
