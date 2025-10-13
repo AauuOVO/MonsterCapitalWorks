@@ -90,30 +90,27 @@
 
 ### 安装步骤
 
-1. **下载插件**
-   - 自行编译（见下方编译说明）
-
-2. **安装依赖**
+1. **安装依赖**
    ```
    确保已安装：
    - Vault 插件
    - 经济插件（如 EssentialsX）
    ```
 
-3. **部署插件**
+2. **部署插件**
    ```
    将 MonsterCapitalWorks-2.0.jar 放入服务器的 plugins 文件夹
    ```
 
-4. **启动服务器**
+3. **启动服务器**
    - 首次启动会自动生成配置文件
    - 配置文件位于 `plugins/MonsterCapitalWorks/`
 
-5. **配置插件**（可选）
+4. **配置插件**（可选）
    - 编辑配置文件以自定义功能
    - 调整实体价格、升级配置等
 
-6. **重载配置**
+5. **重载配置**
    ```
    /mcw reload
    ```
@@ -420,7 +417,7 @@ mvn clean package
 
 ## 📝 更新日志
 
-### v2.0 (2025-10-13)
+### v2.0 (2025-10-14)
 - 🎉 完全重写插件架构
 - ✨ 新增精确生成位置功能
 - ✨ 新增实体存储系统
@@ -429,8 +426,6 @@ mvn clean package
 - 🔧 升级系统优化
 - 🐛 修复多个已知问题
 - ⚡ 性能优化
-
-### v1.0 (2025-10-11)
 - 🎉 首次发布
 - ✨ 基础刷怪笼功能
 - 💰 经济系统集成
@@ -451,8 +446,7 @@ mvn clean package
 
 ## 🔗 相关链接
 
-- [SpigotMC](https://www.spigotmc.org/)（即将发布）
-
+- [minebbs](https://www.minebbs.com/resources/monstercapitalworks-mcw.13777/)
 ---
 
 <div align="center">
@@ -462,3 +456,4 @@ mvn clean package
 Made with ❤️ by Aauu
 
 </div>
+
