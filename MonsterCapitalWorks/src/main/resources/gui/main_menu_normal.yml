@@ -1,0 +1,125 @@
+# 普通刷怪笼 - 主菜单配置
+title: "&6&l刷怪笼控制面板 &7(普通)"
+size: 54
+
+# 菜单布局
+layout:
+  - "####A####"
+  - "#BCDE FG#"
+  - "#       #"
+  - "#       #"
+  - "#       #"
+  - "#########"
+
+# 图标定义
+icons:
+  '#':
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+  
+# 命令执行示例（可选配置）
+# 在 actions 列表中添加以下格式的命令：
+# - 'command: <命令>'        # 以玩家身份执行
+# - 'op: <命令>'             # 以OP身份执行（临时授予OP，执行后撤销）
+# - 'console: <命令>'        # 以控制台身份执行
+# 
+# 示例：
+# actions:
+#   - 'command: spawn'                    # 玩家执行 /spawn
+#   - 'op: give @s diamond 1'            # 临时OP执行给予钻石
+#   - 'console: say 玩家打开了刷怪笼'      # 控制台广播消息
+
+  # 刷怪笼信息
+  'A':
+    material: "PAPER"
+    name: "&e&l刷怪笼信息"
+    lore:
+      - "&7类型: &a%mcw_type%"
+      - "&7生物: &e%mcw_entity%"
+      - "&7位置: &e%mcw_location%"
+      - ""
+      - "&7状态: %mcw_active%"
+      - "&7生成模式: %mcw_spawn_mode%"
+      - "&7已存储: &e%mcw_stored% / %mcw_storage_value%"
+  
+  # 升级按钮
+  'B':
+    material: "DIAMOND"
+    name: "&b&l升级刷怪笼"
+    lore:
+      - "&7点击查看可升级选项"
+      - "&7升级可以提升刷怪笼的性能"
+      - ""
+      - "&7当前等级:"
+      - "&e  生成速度: %mcw_speed_level%"
+      - "&e  生成数量: %mcw_count_level%"
+      - "&e  激活范围: %mcw_range_level%"
+      - "&e  存储容量: %mcw_storage_level%"
+      - "&e  最大附近: %mcw_max_nearby_level%"
+    actions:
+      - "open_gui: upgrade_menu"
+  
+  # 开关按钮
+  'C':
+    material: "LEVER"
+    name: "&e&l刷怪笼开关"
+    lore:
+      - "&7当前状态: %mcw_status%"
+      - ""
+      - "&a开启: &7正常生成生物"
+      - "&c关闭: &7停止生成，仅存储"
+      - ""
+      - "&e左键点击切换状态"
+    actions:
+      - "toggle_active"
+  
+  # 选择生物按钮
+  'D':
+    material: "ZOMBIE_SPAWN_EGG"
+    name: "&a&l选择生物"
+    lore:
+      - "&7点击选择生成的生物类型"
+      - "&7不同生物有不同的特性"
+      - ""
+      - "&7当前生物: &e%mcw_entity%"
+    actions:
+      - "open_gui: entity_menu"
+  
+  # 购买数量按钮
+  'E':
+    material: "GOLD_INGOT"
+    name: "&6&l购买数量上限"
+    lore:
+      - "&7点击购买更多刷怪笼位置"
+      - "&7每次购买价格会递增"
+      - ""
+      - "&7当前: &e%mcw_spawners_normal%/%mcw_limit_normal%"
+      - "&7已购买: &e%mcw_purchased_normal%"
+      - "&7金钱: &6%mcw_money%"
+    actions:
+      - "open_gui: buy_limit_menu"
+  
+  # 刷怪笼统计
+  'F':
+    material: "BOOK"
+    name: "&e&l刷怪笼统计"
+    lore:
+      - "&7生成速度: &e%mcw_speed_value% tick"
+      - "&7生成数量: &e%mcw_count_value%"
+      - "&7最大附近: &e%mcw_max_nearby_value%"
+      - "&7激活范围: &e%mcw_range_value% 格"
+      - "&7最大存储: &e%mcw_storage_value%"
+
+  # 帮助信息
+  'G':
+    material: "PAPER"
+    name: "&b&l帮助信息"
+    lore:
+      - "&7刷怪笼会在玩家靠近时激活"
+      - "&7激活范围由升级等级决定"
+      - ""
+      - "&7开启状态: 正常生成生物"
+      - "&7关闭状态: 停止生成，仅存储"
+      - ""
+      - "&7升级可以提升所有性能"
+      - "&7购买可以增加刷怪笼数量"

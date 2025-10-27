@@ -1,0 +1,67 @@
+# 普通刷怪笼配置
+NORMAL:
+  # 基本信息
+  name: "普通刷怪笼"
+
+  # 限制设置
+  limits:
+    # 基础限制（每个玩家默认可放置数量）
+    base: 5
+    # 最大可购买数量
+    max_purchasable: 50
+    # 是否启用购买功能
+    purchase_enabled: true
+
+  # 存储设置
+  storage:
+    # 是否启用存储功能
+    enabled: true
+    # 默认最大存储数量
+    default_max: 5
+
+  # 生成设置 - 这些是基础值，升级后的值 = 基础值 + (升级等级 × 升级增加量)
+  spawning:
+    # 默认生成延迟（tick）- 基础值
+    default_delay: 500
+    # 默认生成数量 - 基础值
+    default_count: 6
+    # 默认激活范围 - 基础值
+    default_range: 8
+    # 默认最大附近实体 - 基础值
+    default_max_nearby: 5
+    # 默认最大存储容量 - 基础值
+    default_storage: 5
+
+  # 经济设置
+  economy:
+    # 购买基础价格
+    base_price: 5000.0
+    # 价格模式
+    # "fixed" - 固定价格，每次购买价格相同
+    # "multiplier" - 倍率递增，每次购买后价格乘以倍率
+    price_mode: "multiplier"
+    # 价格倍率（仅在multiplier模式下生效）
+    # 例如：1.5表示每次购买后价格增加50%
+    price_multiplier: 1.5
+    # 最多可购买的额外位置数
+    # 玩家最终最大限制 = 基础限制 + 权限额外限制 + 购买的额外限制（不超过此值）
+    max_purchasable: 50
+    # 权限组额外限制示例
+    # 玩家可以通过权限获得额外的刷怪笼位置
+    # 权限格式: mcw.limit.<type>.extra.<数量>
+    # 例如: mcw.limit.normal.extra.10 - 额外10个普通刷怪笼位置
+    #      mcw.limit.premium.extra.5 - 额外5个付费刷怪笼位置
+    #
+    # 最终计算公式:
+    # 玎家最大限制 = 基础限制 + 权限额外限制 + 已购买额外限制
+
+
+  # 升级设置
+  upgrades:
+    # 升级配置文件
+    config_file: "normal_upgrades.yml"
+
+  # GUI设置
+  gui:
+    # 主菜单文件
+    main_menu: "main_menu_normal.yml"

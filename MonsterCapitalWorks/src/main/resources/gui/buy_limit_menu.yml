@@ -1,0 +1,80 @@
+# 购买数量上限菜单配置
+title: "&6&l购买数量上限"
+size: 27
+
+# 菜单布局
+layout:
+  - "#########"
+  - "#A#B#C#D#"
+  - "####E####"
+
+# 图标定义
+icons:
+  # 灰色玻璃板填充
+  '#':
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+    lore: []
+    actions: []
+  
+  # 购买1个
+  'A':
+    material: "GOLD_NUGGET"
+    name: "&e购买 &a1 &e个位置"
+    lore:
+      - "&7增加刷怪笼放置上限"
+      - ""
+      - "&7费用: &e%mcw_buy_1_cost%"
+      - ""
+      - "&e点击购买"
+    actions:
+      - "purchase: limit 1"
+  
+  # 购买5个
+  'B':
+    material: "GOLD_INGOT"
+    name: "&e购买 &a5 &e个位置"
+    lore:
+      - "&7增加刷怪笼放置上限"
+      - ""
+      - "&7费用: &e%mcw_buy_5_cost%"
+      - ""
+      - "&e点击购买"
+    actions:
+      - "purchase: limit 5"
+  
+  # 购买10个
+  'C':
+    material: "GOLD_BLOCK"
+    name: "&e购买 &a10 &e个位置"
+    lore:
+      - "&7增加刷怪笼放置上限"
+      - ""
+      - "&7费用: &e%mcw_buy_10_cost%"
+      - ""
+      - "&e点击购买"
+    actions:
+      - "purchase: limit 10"
+  
+  # 当前信息
+  'D':
+    material: "PAPER"
+    name: "&b&l当前信息"
+    lore:
+      - "&7基础限制: &e%mcw_base_limit%"
+      - "&7权限限制: &e%mcw_perm_limit%"
+      - "&7已购买: &e%mcw_purchased%"
+      - ""
+      - "&7总限制: &a%mcw_limit%"
+      - "&7已放置: &e%mcw_placed%"
+      - ""
+      - "&7类型: &e%mcw_type%"
+  
+  # 返回按钮
+  'E':
+    material: "ARROW"
+    name: "&e返回主菜单"
+    lore:
+      - "&7点击返回主菜单"
+    actions:
+      - "open_gui: main_menu_%mcw_type%"

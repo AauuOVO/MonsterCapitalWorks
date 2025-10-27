@@ -1,0 +1,120 @@
+# 实体刷怪蛋名称配置
+# 在这里自定义各种实体的显示名称
+# 这些名称将用于GUI显示和消息提示
+#
+# 重要说明：
+# 1. entity_names 中的名称优先级最高，会在GUI中显示
+# 2. 如果 entity_names 中没有定义某个实体，则使用 entities 配置文件中的 name 字段
+# 3. 如果两个地方都没有定义，则显示实体的英文名称（如 ZOMBIE）
+#
+# 示例：
+#   - entity_names 中定义: ZOMBIE: "僵尸"
+#   - entities 中定义: name: "&2僵尸"
+#   - 优先显示: entity_names 中的 "僵尸"
+
+# 实体名称映射
+
+# 显示设置
+display:
+  # 是否在GUI中显示生物图标
+  show_icons: true
+
+  # 是否显示生物 lore 描述
+  show_descriptions: true
+
+  # 是否显示生物价格
+  show_prices: true
+
+# 自定义格式
+format:
+  # 生物名称格式
+  name_format: "%name%"
+
+  # 价格显示格式
+  price_format: "§e价格: §f%.2f"
+
+  # 状态显示格式
+  unlocked_format: "§a✔ 已解锁"
+  locked_format: "§c✘ 未解锁"
+  disabled_format: "§c✘ 已禁用"
+
+entity_names:
+  # 动物类
+  COW: "奶牛"
+  PIG: "猪"
+  SHEEP: "羊"
+  CHICKEN: "鸡"
+  RABBIT: "兔子"
+  HORSE: "马"
+  DONKEY: "驴"
+  MULE: "骡子"
+  LLAMA: "羊驼"
+  CAT: "猫"
+  OCELOT: "豹猫"
+  WOLF: "狼"
+  PARROT: "鹦鹉"
+  TURTLE: "海龟"
+  PANDA: "熊猫"
+  FOX: "狐狸"
+  BEE: "蜜蜂"
+  
+  # 怪物类
+  ZOMBIE: "僵尸"
+  SKELETON: "骷髅"
+  SPIDER: "蜘蛛"
+  CREEPER: "苦力怕"
+  ENDERMAN: "末影人"
+  WITCH: "女巫"
+  SLIME: "史莱姆"
+  MAGMA_CUBE: "岩浆怪"
+  BLAZE: "烈焰人"
+  GHAST: "恶魂"
+  WITHER_SKELETON: "凋零骷髅"
+  ZOMBIE_VILLAGER: "僵尸村民"
+  HUSK: "尸壳"
+  STRAY: "流浪者"
+  PHANTOM: "幻翼"
+  DROWNED: "溺尸"
+  
+  # 下界生物
+  PIGLIN: "猪灵"
+  HOGLIN: "疣猪兽"
+  ZOGLIN: "僵尸疣猪兽"
+  STRIDER: "炽足兽"
+  
+  # 末地生物
+  SHULKER: "潜影贝"
+  ENDERMITE: "末影螨"
+
+  # 水生生物
+  SQUID: "鱿鱼"
+  GLOW_SQUID: "发光鱿鱼"
+  COD: "鳕鱼"
+  SALMON: "鲑鱼"
+  TROPICAL_FISH: "热带鱼"
+  PUFFERFISH: "河豚"
+  DOLPHIN: "海豚"
+  GUARDIAN: "守卫者"
+  ELDER_GUARDIAN: "远古守卫者"
+  
+  # 其他生物
+  VILLAGER: "村民"
+  IRON_GOLEM: "铁傀儡"
+  SNOW_GOLEM: "雪傀儡"
+  BAT: "蝙蝠"
+  POLAR_BEAR: "北极熊"
+  MUSHROOM_COW: "哞菇"
+  
+  # Boss生物
+  WITHER: "凋零"
+  ENDER_DRAGON: "末影龙"
+  
+  # 特殊生物
+  GIANT: "巨人"
+  CAVE_SPIDER: "洞穴蜘蛛"
+  SILVERFISH: "蠹虫"
+  ENDER_DRAGON: "末影龙"
+
+# 语言设置
+language:
+  default: "zh_CN"

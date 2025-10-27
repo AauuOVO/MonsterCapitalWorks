@@ -1,0 +1,142 @@
+# MonsterCapitalWorks (MCW) - 主配置文件
+# 版本: 3.1
+
+# 数据库设置
+database:
+  # 数据库类型: sqlite 或 mysql
+  type: sqlite
+  
+  # SQLite配置
+  sqlite:
+    file: data/mcw.db
+  
+  # MySQL配置
+  mysql:
+    host: localhost
+    port: 3306
+    database: mcw_database
+    username: root
+    password: password
+    # 连接池配置
+    pool:
+      maximum_pool_size: 10
+      minimum_idle: 5
+      connection_timeout: 30000
+      idle_timeout: 600000
+      max_lifetime: 1800000
+
+# 经济设置
+economy:
+  # 是否启用经济功能（需要Vault）
+  enabled: true
+
+# PlaceholderAPI设置
+placeholderapi:
+  # 是否启用PAPI支持
+  enabled: true
+
+# PlayerPoints设置
+playerpoints:
+  # 是否启用PlayerPoints积分支持
+  enabled: false
+
+# 刷怪笼默认实体设置
+default_entities:
+  # 当使用 /mcw give 命令不指定实体时的默认实体
+  normal: ZOMBIE
+  premium: ZOMBIE
+
+# 性能优化设置
+performance:
+  # 存储添加间隔（tick，20tick=1秒）
+  # 关闭的刷怪笼添加生物到存储的间隔
+  storage_add_interval: 20
+  
+  # 存储释放设置
+  # 存储释放间隔（tick，20tick=1秒）
+  # 激活的刷怪笼释放存储生物的间隔
+  storage_release_interval: 100
+  # 每次释放数量
+  # 每次从存储中释放的生物数量
+  storage_release_amount: 1
+
+  # 刷怪笼处理间隔（tick，20tick=1秒）
+  # 值越小处理越频繁，但CPU占用越高
+  spawner_tick_interval: 20
+  # 每tick处理的最大刷怪笼数量
+  # 防止单次处理过多刷怪笼导致卡顿
+  max_spawners_per_tick: 10
+
+  # 是否使用异步处理
+  # 启用后大部分数据库操作将在异步线程执行，减少主线程阻塞
+  async_processing: true
+  # 是否启用任务监控
+  # 启用后会定期输出异步任务统计信息（默认关闭）
+  enable_task_monitoring: false
+
+# 优化设置
+optimization:
+  # 是否启用刷怪笼缓存
+  # 启用后会缓存刷怪笼数据，提高性能
+  enable_spawner_cache: true
+  # 缓存过期时间（秒）
+  cache_expiry_seconds: 300
+  # 是否启用玩家数据缓存
+  enable_player_data_cache: true
+  # 玩家数据缓存过期时间（秒）
+  player_cache_expiry_seconds: 600
+  # 是否启用实体生成优化
+  # 启用后会优化实体生成逻辑，减少不必要的计算
+  enable_entity_generation_optimization: true
+
+# 日志配置
+logging:
+  # 日志级别: DEBUG, INFO, WARNING, SEVERE
+  level: INFO
+  # 是否启用调试日志
+  debug_enabled: false
+  # 是否记录刷怪笼放置
+  log_spawner_placement: true
+  # 是否记录刷怪笼使用
+  log_spawner_usage: true
+  # 是否记录经济交易
+  log_economy_transactions: true
+  # 是否记录管理员操作
+  log_admin_actions: true
+
+# 调试配置
+debug:
+  # 是否启用调试模式
+  enabled: false
+  # 是否显示性能统计
+  show_performance_stats: false
+  # 是否显示缓存统计
+  show_cache_stats: false
+
+# 备份配置
+backup:
+  # 是否启用自动备份
+  enabled: true
+  # 备份间隔（小时，168小时=7天）
+  interval: 168
+  # 备份保留天数
+  retention_days: 7
+  # 是否启用压缩
+  compression_enabled: true
+
+# 配置文件说明
+# 以下是已分离到独立配置文件的设置：
+#
+# 1. 刷怪笼类型配置 -> config/premium_config.yml
+#    - 普通刷怪笼和付费刷怪笼的详细配置
+#    - 权限、限制、升级、GUI等设置
+#
+# 2. 实体名称配置 -> config/entity_spawn_egg.yml
+#    - 各种实体的中文名称映射
+#    - 显示格式和语言设置
+#
+# 3. 刷怪笼名称配置 -> config/premium_config.yml 中的 spawner_names 部分
+#    - 刷怪笼显示名称格式
+#    - 提示信息指向 entity_spawn_egg.yml
+#
+# 如需修改这些设置，请编辑对应的配置文件

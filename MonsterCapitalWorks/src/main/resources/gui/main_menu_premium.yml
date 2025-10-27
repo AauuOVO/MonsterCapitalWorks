@@ -1,0 +1,131 @@
+# 付费刷怪笼 - 主菜单配置
+title: "&6&l刷怪笼控制面板 &7(付费)"
+size: 54
+
+# 菜单布局
+layout:
+  - "####A####"
+  - "#BCDEFGH#"
+  - "#       #"
+  - "#       #"
+  - "#       #"
+  - "#########"
+
+# 图标定义
+icons:
+  '#':
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+  
+# 命令执行示例（可选配置）
+# 在 actions 列表中添加以下格式的命令：
+# - 'command: <命令>'        # 以玩家身份执行
+# - 'op: <命令>'             # 以OP身份执行（临时授予OP，执行后撤销）
+# - 'console: <命令>'        # 以控制台身份执行
+# 
+# 示例：
+# actions:
+#   - 'command: spawn'                    # 玩家执行 /spawn
+#   - 'op: give @s diamond 1'            # 临时OP执行给予钻石
+#   - 'console: say 玩家打开了刷怪笼'      # 控制台广播消息
+
+
+  # 刷怪笼信息
+  'A':
+    material: "PAPER"
+    name: "&e&l刷怪笼信息"
+    lore:
+      - "&7类型: &6%mcw_type%"
+      - "&7生物: &e%mcw_entity%"
+      - "&7位置: &e%mcw_location%"
+      - ""
+      - "&7开关状态: %mcw_active%"
+      - "&7存储状态: %mcw_status%"
+      - "&7已存储: &e%mcw_stored% / %mcw_storage_value%"
+      - "&7生成模式: %mcw_spawn_mode%"
+      - ""
+      - "&7精确位置: %mcw_precise_pos%"
+  
+  # 升级按钮
+  'B':
+    material: "DIAMOND"
+    name: "&b&l升级刷怪笼"
+    lore:
+      - "&7点击查看可升级选项"
+      - ""
+      - "&7当前等级:"
+      - "&e  速度: %mcw_speed_level%"
+      - "&e  数量: %mcw_count_level%"
+      - "&e  范围: %mcw_range_level%"
+      - "&e  存储: %mcw_storage_level%"
+    actions:
+      - "open_gui: upgrade_menu"
+  
+  # 开关按钮
+  'C':
+    material: "LEVER"
+    name: "&e&l刷怪笼开关"
+    lore:
+      - "&7当前状态: %mcw_status%"
+      - ""
+      - "&a开启: &7正常刷怪"
+      - "&c关闭: &7仅存储生物"
+      - ""
+      - "&e点击切换状态"
+    actions:
+      - "toggle_active"
+  
+  # 选择生物按钮
+  'D':
+    material: "ZOMBIE_SPAWN_EGG"
+    name: "&a&l选择生物"
+    lore:
+      - "&7点击选择生成的生物类型"
+      - ""
+      - "&7当前生物: &e%mcw_entity%"
+    actions:
+      - "open_gui: entity_menu"
+  
+  # 生成模式设置按钮（付费专属）
+  'E':
+    material: "ENDER_PEARL"
+    name: "&d&l生成模式设置 &7[付费专属]"
+    lore:
+      - "&7当前模式: %mcw_spawn_mode%"
+      - "&7精确位置: %mcw_precise_pos%"
+      - ""
+      - "&e左键: &7切换生成模式"
+      - "&e右键: &7打开精确位置设置"
+      - ""
+      - "&c需要权限: &7mcw.spawnmode.precise"
+    actions:
+      - "toggle_spawn_mode"
+    right_click_actions:
+      - "open_gui: pos_menu"
+  
+  # 刷怪笼统计
+  'G':
+    material: "BOOK"
+    name: "&e&l刷怪笼统计"
+    lore:
+      - "&7速度: &e%mcw_speed_value% tick"
+      - "&7数量: &e%mcw_count_value%"
+      - "&7最大附近: &e%mcw_max_nearby_value%"
+      - "&7激活范围: &e%mcw_range_value% 格"
+      - "&7最大存储: &e%mcw_storage_value%"
+  
+  # 帮助信息
+  'H':
+    material: "PAPER"
+    name: "&b&l帮助信息"
+    lore:
+      - "&7刷怪笼会在玩家靠近时激活"
+      - "&7激活范围由升级等级决定"
+      - ""
+      - "&7开启状态: 正常生成生物"
+      - "&7关闭状态: 仅累积存储"
+      - ""
+      - "&7存储功能需要升级解锁"
+      - ""
+      - "&d付费刷怪笼支持精准模式"
+      - "&7可设置精确的生成位置"

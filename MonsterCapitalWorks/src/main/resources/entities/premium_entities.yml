@@ -1,0 +1,165 @@
+# 付费刷怪笼 - 实体配置文件
+# 
+# require_unlock 字段说明（重要！）：
+#   true  = 免费解锁，玩家无需购买即可直接使用（这是默认值）
+#   false = 需要花钱购买解锁
+# 
+# 默认行为：
+#   - 如果不写 require_unlock 字段，默认为 true（免费解锁）
+#   - 只有明确写 require_unlock: false 的生物才需要花钱解锁
+#   - 所有未在此文件中配置的生物都默认免费解锁
+#
+# price 和 point 字段说明（付费解锁）：
+#   price: 金币价格（需要Vault经济插件）
+#   point: 积分价格（需要PlayerPoints插件）
+#
+#   支付方式：
+#   1. 只有 price：玩家需要支付金币解锁
+#   2. 只有 point：玩家需要支付积分解锁
+#   3. 同时有 price 和 point：玩家需要同时支付金币和积分才能解锁
+#      - 如果金币或积分不足，都无法解锁
+#      - 两者都足够才能成功解锁
+#   4. 都没有：免费解锁（require_unlock: true）
+#
+# 示例：
+#   ZOMBIE:
+#     price: 1000        # 只需要金币
+#   SKELETON:
+#     point: 500         # 只需要积分
+#   CREEPER:
+#     price: 2000        # 同时需要金币和积分
+#     point: 1000
+#   SPIDER:
+#     require_unlock: true  # 免费解锁
+#
+# conditions 字段说明（PAPI条件判断）：
+#   使用 PlaceholderAPI 变量进行条件判断，在生成怪物时检查
+#   
+#   格式：每个条件是一个字符串，使用 PAPI 变量和比较运算符
+#   
+#   可用的比较运算符：
+#   - ==  等于
+#   - !=  不等于
+#   - >   大于
+#   - >=  大于等于
+#   - <   小于
+#   - <=  小于等于
+#   
+#   常用的 PAPI 变量示例：
+#   - %world_name%           # 当前世界名称（如 "world", "world_nether", "world_the_end"）
+#   - %player_world%         # 玩家所在世界
+#   - 其他PlaceholderAPI支持的变量
+#   
+#   注意事项：
+#   - 所有条件必须同时满足才能生成怪物
+#   - 如果不写 conditions，则刷怪笼可以正常生成，无任何限制
+#   - 拥有 mcw.bypass.conditions 权限的玩家可以绕过这些限制
+#   - 需要安装 PlaceholderAPI 插件才能使用变量
+#   
+#   示例：
+#   conditions:
+#     - "%world_name% == world_nether"    # 只能在下界生成怪物
+#     - "%player_world% != world_the_end" # 不能在末地生成怪物
+#
+# spawn_conditions 字段说明（Y坐标条件判断）：
+#   插件内部判断刷怪笼放置位置的Y坐标，在放置刷怪笼时检查
+#   
+#   可用字段：
+#   - min_y: 数字              # 刷怪笼必须放置在 Y坐标 >= 此值的位置
+#   - max_y: 数字              # 刷怪笼必须放置在 Y坐标 <= 此值的位置
+#   
+#   注意事项：
+#   - 所有字段都是可选的，不填写则不限制
+#   - 如果不写 spawn_conditions，则刷怪笼可以在任何Y坐标放置
+#   - 拥有 mcw.bypass.conditions 权限的玩家可以绕过这些限制
+#   
+#   示例：
+#   spawn_conditions:
+#     min_y: 0                 # 刷怪笼必须放置在Y >= 0的位置
+#     max_y: 128               # 刷怪笼必须放置在Y <= 128的位置
+
+entities:
+
+  COW:
+    price: 5000
+  
+  SHEEP:
+    price: 5000
+  
+  PIG:
+    price: 5000
+  
+  CHICKEN:
+    price: 4000
+  
+  RABBIT:
+    price: 4000
+  
+  VILLAGER:
+    price: 10000
+
+  ZOMBIE:
+    name: "&2僵尸"
+    lore:
+      - "&7亡灵生物"
+      - "&7会掉落腐肉"
+    require_unlock: false  # 免费解锁
+    spawn_conditions:
+      min_y: 30                           # Y坐标条件：刷怪笼必须放置在Y >= 30
+      # max_y 不填表示不限制最大高度
+  
+  SKELETON:
+    price: 3000
+  
+  CREEPER:
+    price: 4000
+  
+  SPIDER:
+    price: 2500
+  
+  ENDERMAN:
+    price: 8000
+  
+  WITCH:
+    price: 6000
+  
+  BLAZE:
+    price: 10000
+    conditions:
+      - "%world_name% == world_nether"    # PAPI条件：只能在下界生成怪物
+    spawn_conditions:
+      min_y: 0                            # Y坐标条件：刷怪笼必须放置在Y >= 0
+      max_y: 128                          # Y坐标条件：刷怪笼必须放置在Y <= 128
+  
+  GHAST:
+    price: 12000
+    conditions:
+      - "%world_name% == world_nether"    # PAPI条件：只能在下界生成怪物
+    spawn_conditions:
+      min_y: 50                           # Y坐标条件：刷怪笼必须放置在Y >= 50
+  
+  # 中立生物
+  IRON_GOLEM:
+    price: 15000
+  
+  WOLF:
+    price: 8000
+  
+  PIGLIN:
+    price: 7000
+  
+  # Boss生物（高价格）
+  WITHER:
+    price: 100000
+    enabled: false  # 默认禁用，可通过配置启用
+  
+  ENDER_DRAGON:
+    price: 200000
+    enabled: false
+  
+  WARDEN:
+    price: 150000
+    enabled: false
+    spawn_conditions:
+      min_y: -64                          # Y坐标条件：刷怪笼必须放置在Y >= -64（深层洞穴）
+      max_y: 0                            # Y坐标条件：刷怪笼必须放置在Y <= 0

@@ -1,0 +1,118 @@
+name: MonsterCapitalWorks
+version: '3.2'
+main: org.Aauu.monsterCapitalWorks.MonsterCapitalWorks
+api-version: '1.21'
+authors: [Aauu]
+description: 高级刷怪笼管理系统 - Kotlin优化版 | 支持MySQL/SQLite、升级系统、GUI界面、精确生成模式、异步处理
+website: https://github.com/Aauu/MonsterCapitalWorks
+
+depend: [Vault]
+softdepend: [PlaceholderAPI , playerpoints]
+
+commands:
+  mcw:
+    description: MonsterCapitalWorks 主命令
+    usage: |
+      /mcw help - 显示帮助信息
+      /mcw give <type> [entity] [player] - 给予刷怪笼
+      /mcw remove - 移除刷怪笼
+      /mcw reload - 重载配置
+      /mcw menu - 打开主菜单
+      /mcw list [player] - 查看刷怪笼列表
+      /mcw info - 查看刷怪笼信息
+      /mcw limit <set|add|remove> <player> <type> <amount> - 管理刷怪笼限制
+    aliases: [monstercapitalworks, mcw]
+
+permissions:
+  # 基础权限
+  mcw.use:
+    description: 使用刷怪笼基础权限
+    default: true
+    children:
+      mcw.use.normal: true
+  
+  mcw.use.normal:
+    description: 使用普通刷怪笼
+    default: true
+  
+  mcw.use.premium:
+    description: 使用付费刷怪笼
+    default: op
+  
+  mcw.place:
+    description: 放置刷怪笼基础权限
+    default: true
+    children:
+      mcw.place.normal: true
+  
+  mcw.place.normal:
+    description: 放置普通刷怪笼
+    default: true
+  
+  mcw.place.premium:
+    description: 放置付费刷怪笼
+    default: op
+  
+  # 管理员权限
+  mcw.admin:
+    description: 管理员权限
+    default: op
+    children:
+      mcw.admin.reload: true
+      mcw.admin.give: true
+      mcw.admin.remove: true
+      mcw.admin.menu: true
+      mcw.bypass.conditions: true
+      mcw.use.premium: true
+      mcw.place.premium: true
+      mcw.spawnmode.precise: true
+      mcw.limit.manage: true
+  
+  mcw.admin.reload:
+    description: 重载插件配置
+    default: op
+  
+  mcw.admin.give:
+    description: 给予刷怪笼给玩家
+    default: op
+  
+  mcw.admin.remove:
+    description: 移除任意刷怪笼
+    default: op
+  
+  mcw.admin.menu:
+    description: 打开管理菜单
+    default: op
+  
+  # 特殊权限
+  mcw.bypass.conditions:
+    description: 绕过放置条件检查
+    default: op
+  
+  mcw.bypass.limits:
+    description: 绕过刷怪笼数量限制
+    default: op
+  
+  mcw.spawnmode.precise:
+    description: 使用精确生成模式
+    default: op
+  
+  mcw.limit.manage:
+    description: 管理刷怪笼限制
+    default: op
+  
+  mcw.*:
+    description: MonsterCapitalWorks 所有权限
+    default: op
+    children:
+      mcw.use: true
+      mcw.place: true
+      mcw.admin: true
+      mcw.bypass.*: true
+  
+  mcw.bypass.*:
+    description: 所有绕过权限
+    default: op
+    children:
+      mcw.bypass.conditions: true
+      mcw.bypass.limits: true

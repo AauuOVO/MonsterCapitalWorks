@@ -1,0 +1,61 @@
+# 付费刷怪笼配置
+PREMIUM:
+  # 基本信息
+  name: "付费刷怪笼"
+  
+  # 权限设置
+  permissions:
+    # 使用权限
+    use: "mcw.use.premium"
+    # 放置权限
+    place: "mcw.place.premium"
+    # 破坏权限
+    break: "mcw.break.premium"
+    # 管理权限
+    admin: "mcw.admin.premium"
+  
+  # 限制设置
+  limits:
+    # 基础限制（每个玩家默认可放置数量）
+    base: 3
+
+  # 存储设置
+  storage:
+    # 是否启用存储功能
+    enabled: true
+    # 默认最大存储数量
+    default_max: 10
+  
+  # 生成设置 - 这些是基础值，升级后的值 = 基础值 + (升级等级 × 升级增加量)
+  spawning:
+    # 默认生成延迟（tick）- 基础值
+    default_delay: 500
+    # 默认生成数量 - 基础值
+    default_count: 6
+    # 默认激活范围 - 基础值
+    default_range: 20
+    # 默认最大附近实体 - 基础值
+    default_max_nearby: 8
+    # 默认最大存储容量 - 基础值
+    default_storage: 10
+  
+  # 经济设置
+  economy:
+    # 玩家可以通过权限获得额外的刷怪笼位置
+    # 权限格式: mcw.limit.<type>.extra.<数量>
+    # 例如: mcw.limit.normal.extra.10 - 额外10个普通刷怪笼位置
+    #      mcw.limit.premium.extra.5 - 额外5个付费刷怪笼位置
+    #
+    # 最终计算公式:
+    # 玎家最大限制 = 基础限制 + 权限额外限制
+    max_purchasable: 50
+
+  # 升级设置
+  upgrades:
+    # 升级配置文件
+    config_file: "premium_upgrades.yml"
+
+  # GUI设置
+  gui:
+    # 主菜单文件
+    main_menu: "main_menu_premium.yml"
